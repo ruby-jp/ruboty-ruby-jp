@@ -11,14 +11,18 @@ module Ruboty
       require 'pp'
 
       on(
-         /(?:parse\s)?(?:(?<parser>#{Regexp.union(*KNOWN_PARSERS)})\s)?(?<code>.+)/im,
+         /(?<with_parse>parse\s)?(?:(?<parser>#{Regexp.union(*KNOWN_PARSERS)})\s)?(?<code>.+)/im,
          name: 'parse',
          description: "Parse Ruby code and response AST",
       )
 
       def parse(message)
-        parser = message.match_data['parser']
-        code = message.match_data['code']
+        m = message.match_data
+        parser = m['parser']
+        code = m['code']
+        with_parse = m['with_parse']
+        return if !with_parse && !parser
+
         obj = parse_code(parser, code)
         message.reply "```\n#{obj.pretty_inspect.chomp}\n```"
       end
