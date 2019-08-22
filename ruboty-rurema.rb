@@ -2,7 +2,7 @@ module Ruboty
   module Handlers
     class Rurema < Base
       URL_BASE = 'https://docs.ruby-lang.org/ja/latest/'
-      USAGE = "ruboty rurema `Klass|Klass\#method|Klass.method|Klass::Child`"
+      USAGE = "ruboty rurema Klass|Klass\#method|Klass.method|Klass::Child"
       CLASS_RE = /[A-Z][\w:]+/
 
       on(
@@ -26,7 +26,7 @@ module Ruboty
             method = encode_name Regexp.last_match['method']
             URL_BASE + "method/#{klass}/s/#{method}.html"
           else
-            "Sorry I cannot understand it. #{USAGE}"
+            "Sorry I cannot understand it. `#{USAGE}`"
           end
         message.reply resp
       end
