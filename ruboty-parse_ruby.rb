@@ -19,21 +19,25 @@ module Ruboty
       def parse(message)
         parser = message.match_data['parser']
         code = message.match_data['code']
-        obj =
-          case parser = message.match_data['parser']
-          when 'ripper', 'sexp', nil
-            Ripper.sexp(code)
-          when /parser(?<version>\d+)/
-            v = Regexp.last_match['version']
-            Parser.const_get(:"Ruby#{v}").parse(code)
-          when 'rubyvm'
-            RubyVM::AbstractSyntaxTree.parse(code)
-          else
-            raise 'unreachable'
-          end
-        message.reply "```\n#{obj.pretty_inspect}\n```"
+        obj = parse_code(parser, code)
+        message.reply "```\n#{obj.pretty_inspect.chomp}\n```"
       end
 
+      private def parse_code(parser, code)
+        case parser
+        when 'ripper', 'sexp', nil
+          Ripper.sexp(code)
+        when /parser(?<version>\d+)/
+          v = Regexp.last_match['version']
+          Parser.const_get(:"Ruby#{v}").parse(code)
+        when 'rubyvm'
+          RubyVM::AbstractSyntaxTree.parse(code)
+        else
+          raise 'unreachable'
+        end
+      rescue SyntaxError, Parser::SyntaxError => ex
+        ex
+      end
     end
   end
 end
