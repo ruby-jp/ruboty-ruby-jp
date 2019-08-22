@@ -2,7 +2,7 @@ module Ruboty
   module Handlers
     class Rurema < Base
       URL_BASE = 'https://docs.ruby-lang.org/ja/latest/'
-      USAGE = "ruboty rurema Klass|Klass\#method|Klass.method|Klass::Child"
+      USAGE = "ruboty rurema `Klass|Klass\#method|Klass.method|Klass::Child`"
       CLASS_RE = /[A-Z][\w:]+/
 
       on(
