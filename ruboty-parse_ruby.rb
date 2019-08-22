@@ -11,7 +11,7 @@ module Ruboty
       require 'pp'
 
       on(
-         /parse\s(?:(?<parser>#{Regexp.union(*KNOWN_PARSERS)})\s)?(?<code>.+)/i,
+         /(?:parse\s)?(?:(?<parser>#{Regexp.union(*KNOWN_PARSERS)})\s)?(?<code>.+)/i,
          name: 'parse',
          description: "Parse Ruby code and response AST",
       )
