@@ -17,6 +17,10 @@ module Ruboty
           case q
           when /\A#{CLASS_RE}\z/
             URL_BASE + "class/#{encode_name(q)}.html"
+          when /\A(?<class>#{CLASS_RE})\.\#(?<method>.+)\z/
+            klass = encode_name Regexp.last_match['class']
+            method = encode_name Regexp.last_match['method']
+            URL_BASE + "method/#{klass}/m/#{method}.html"
           when /\A(?<class>#{CLASS_RE})\#(?<method>.+)\z/
             klass = encode_name Regexp.last_match['class']
             method = encode_name Regexp.last_match['method']
