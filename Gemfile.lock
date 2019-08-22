@@ -7,6 +7,7 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.1, >= 2.1.8)
+    ast (2.4.0)
     concurrent-ruby (1.1.5)
     dotenv (2.7.5)
     event_emitter (0.2.6)
@@ -24,6 +25,8 @@ GEM
     minitest (5.11.3)
     multi_json (1.13.1)
     multipart-post (2.1.1)
+    parser (2.6.3.0)
+      ast (~> 2.4.0)
     rake (12.3.3)
     ruboty (1.3.0)
       activesupport
@@ -58,6 +61,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  parser
   rake
   ruboty-slack_rtm
 
