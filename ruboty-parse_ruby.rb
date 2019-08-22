@@ -2,7 +2,7 @@ module Ruboty
   module Handlers
     class ParseRuby < Base
       KNOWN_RUBY_VERSIONS = 18..27
-      KNOWN_PARSERS = %w[ripper sexp rubyvm] + KNOWN_RUBY_VERSIONS.map {|v| "parser#{v}"}
+      KNOWN_PARSERS = %w[ripper sexp tokenize lex rubyvm] + KNOWN_RUBY_VERSIONS.map {|v| "parser#{v}"}
 
       KNOWN_RUBY_VERSIONS.each do |v|
         require "parser/ruby#{v}"
@@ -27,6 +27,10 @@ module Ruboty
         case parser
         when 'ripper', 'sexp', nil
           Ripper.sexp(code)
+        when 'tokenize'
+          Ripper.tokenize(code)
+        when 'lex'
+          Ripper.lex(code)
         when /parser(?<version>\d+)/
           v = Regexp.last_match['version']
           Parser.const_get(:"Ruby#{v}").parse(code)
