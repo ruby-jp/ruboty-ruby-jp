@@ -2,6 +2,7 @@ require 'net/https'
 require 'uri'
 require 'json'
 require 'open-uri'
+require 'cgi'
 
 module Ruboty
   module Handlers
@@ -24,7 +25,8 @@ module Ruboty
           return
         end
 
-        resp = get SEARCH_API_URL_BASE + query
+        # Is CGI.escape correct way?
+        resp = get SEARCH_API_URL_BASE + CGI.escape(query)
         if resp[:entries].empty?
           message.reply "No document for #{query}"
           return
