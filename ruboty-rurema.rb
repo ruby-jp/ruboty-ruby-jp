@@ -32,7 +32,7 @@ module Ruboty
 
         url = resp.dig(:entries, 0, :documents, -1, :url)
         # BUG: rurema searcher returns URL with 'https://docs.ruby-lang.org/ja/search/', so we need removing it.
-        url.sub!('https://docs.ruby-lang.org/ja/search/', '')
+        url.sub!('docs.ruby-lang.org/ja/search/http://', '')
         message.reply url
       end
 
