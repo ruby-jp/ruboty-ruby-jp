@@ -35,6 +35,9 @@ module Ruboty
         message.reply resp
       end
 
+      # It is copied and modified from bitclust.
+      # The license for the method follows bitclust's one.
+      # https://github.com/rurema/bitclust/blob/ba4b07e05ae41694e4930d7be355d32e9f17f396/lib/bitclust/nameutils.rb#L205-L208
       private def encode_name(name)
         name.gsub(/[^A-Za-z0-9_]/n) {|ch| sprintf('=%02x', ch.ord) }
       end
