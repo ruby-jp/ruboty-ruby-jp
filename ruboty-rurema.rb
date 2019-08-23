@@ -8,7 +8,7 @@ module Ruboty
   module Handlers
     class Rurema < Base
       URL_BASE = 'https://docs.ruby-lang.org/ja/latest/'
-      SEARCH_API_URL_BASE = 'https://docs.ruby-lang.org/ja/search/api:v1/query:'
+      SEARCH_API_URL_BASE = 'https://docs.ruby-lang.org/ja/search/api:v1/'
       CLASS_RE = /[A-Z][\w:]+/
 
       on(
@@ -26,8 +26,8 @@ module Ruboty
         end
 
         # Is CGI.escape correct way?
-        resp = get SEARCH_API_URL_BASE + CGI.escape(query)
-        if resp[:entries].empty?
+        resp = get SEARCH_API_URL_BASE + query.split.map {|q| "query:#{CGI.escape(q)}"}.join('/')
+        if resp.nil? || resp[:entries].empty?
           message.reply "No document for #{query}"
           return
         end
@@ -97,6 +97,9 @@ module Ruboty
 
       private def get(url)
         JSON.parse(URI.open(url).read, symbolize_names: true)
+      rescue OpenURI::HTTPError => ex
+        p ex
+        nil
       end
     end
   end
