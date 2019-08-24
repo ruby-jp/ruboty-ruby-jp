@@ -27,6 +27,6 @@ License
 ---
 
 
-These codes are licensed under CC0, except code that is copied from [bitclust](https://github.com/rurema/bitclust/blob/ba4b07e05ae41694e4930d7be355d32e9f17f396/lib/bitclust/nameutils.rb#L205-L208).
+These codes are licensed under CC0.
 
 [![CC0](http://i.creativecommons.org/p/zero/1.0/88x31.png "CC0")](http://creativecommons.org/publicdomain/zero/1.0/deed.en)

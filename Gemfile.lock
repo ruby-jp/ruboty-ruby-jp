@@ -34,6 +34,8 @@ GEM
       dotenv
       mem
       slop
+    ruboty-rurema (0.1.0)
+      ruboty
     ruboty-slack_rtm (3.1.1)
       faraday (~> 0.11)
       ruboty (>= 1.1.4)
@@ -63,6 +65,7 @@ PLATFORMS
 DEPENDENCIES
   parser
   rake
+  ruboty-rurema
   ruboty-slack_rtm
 
 RUBY VERSION
