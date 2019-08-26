@@ -16,6 +16,12 @@ module Ruboty
          description: "Parse Ruby code and response AST",
       )
 
+      on(
+        /syntax-check (?<code>.+)/im,
+        name: 'syntax_check',
+        description: 'Check the syntax of the given Ruby code with parser gem',
+      )
+
       def parse(message)
         m = message.match_data
         parser = m['parser']
@@ -25,6 +31,16 @@ module Ruboty
 
         obj = parse_code(parser, code)
         message.reply "```\n#{obj.pretty_inspect.chomp}\n```"
+      end
+
+      def syntax_check(message)
+        code = message.match_data['code']
+        result = KNOWN_RUBY_VERSIONS.map do |v|
+          err_or_ast = parse_code("parser#{v}", code)
+          ok = !err_or_ast.is_a?(Exception)
+          "#{v}: #{ok ? 'ok' : err_or_ast}"
+        end
+        message.reply result.join "\n"
       end
 
       private def parse_code(parser, code)
