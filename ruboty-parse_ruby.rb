@@ -25,7 +25,7 @@ module Ruboty
       )
 
       on(
-        /-?cw (?<code>.+)/im,
+        /-?cwe? (?<code>.+)/im,
         name: 'cw',
         description: 'Run ruby -cw',
       )
@@ -53,7 +53,7 @@ module Ruboty
 
       def cw(message)
         code = message.match_data['code']
-        out, _status = Open3.capture2e("ruby", '-cwe', code)
+        out, _status = Open3.capture2e("ruby", '-cwve', code)
         message.reply wrap_codeblock(out)
       end
 
