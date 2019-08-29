@@ -1,3 +1,5 @@
+require 'open3'
+
 module Ruboty
   module Handlers
     class ParseRuby < Base
@@ -22,6 +24,12 @@ module Ruboty
         description: 'Check the syntax of the given Ruby code with parser gem',
       )
 
+      on(
+        /-?cw (?<code>.+)/im,
+        name: 'cw',
+        description: 'Run ruby -cw',
+      )
+
       def parse(message)
         m = message.match_data
         parser = m['parser']
@@ -30,7 +38,7 @@ module Ruboty
         return if !with_parse && !parser
 
         obj = parse_code(parser, code)
-        message.reply "```\n#{obj.pretty_inspect.chomp}\n```"
+        message.reply wrap_codeblock(obj.pretty_inspect)
       end
 
       def syntax_check(message)
@@ -41,6 +49,12 @@ module Ruboty
           "#{v}: #{ok ? 'ok' : err_or_ast}"
         end
         message.reply result.join "\n"
+      end
+
+      def cw(message)
+        code = message.match_data['code']
+        out, _status = Open3.capture2e("ruby", '-cwe', code)
+        message.reply wrap_codeblock(out)
       end
 
       private def parse_code(parser, code)
@@ -61,6 +75,10 @@ module Ruboty
         end
       rescue SyntaxError, Parser::SyntaxError => ex
         ex
+      end
+
+      private def wrap_codeblock(str)
+        "```\n#{str.chomp}\n```"
       end
     end
   end
