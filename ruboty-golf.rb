@@ -28,11 +28,11 @@ module Ruboty
         channel = message.match_data['channel']
 
         new_topic = format active_problems
-        c = Slack::Client.new(token: ENV.fetch('SLACK_TOKEN'))
         channel_id = resolve_channel_id(channel)
-        current_topic = channel_info channel_id.dig('topic', 'value')
+        current_topic = channel_info(channel_id).dig('topic', 'value')
+        p current_topic
         if current_topic != new_topic
-          c.channels_setTopic(channel: channel_id, topic: new_topic)
+          client.channels_setTopic(channel: channel_id, topic: new_topic)
         end
       rescue => ex
         message.reply "Error: #{ex.inspect}"
@@ -52,7 +52,7 @@ module Ruboty
       end
 
       private def format(problems)
-        problems.map { |p| "* \##{p[:number]}: *#{p[:title]}* until #{p[:deadline] } #{p[:url]}"}.join("\n")
+        problems.map { |p| "* \##{p[:number]}: <#{p[:url]}|#{p[:title]}> until #{p[:deadline]}"}.join("\n")
       end
 
       private def adapter
@@ -66,7 +66,12 @@ module Ruboty
       end
 
       private def channel_info(id)
-        adapter.__send__(:channel_info, id)
+        # Do not use slack RTM adapter's channel_info method to avoid cache
+        client.channels_info(channel: id)['channel']
+      end
+
+      private def client
+        Slack::Client.new(token: ENV.fetch('SLACK_TOKEN'))
       end
     end
   end
