@@ -27,7 +27,7 @@ GEM
     minitest (5.11.3)
     multi_json (1.13.1)
     multipart-post (2.1.1)
-    parser (2.6.3.0)
+    parser (2.6.4.0)
       ast (~> 2.4.0)
     rake (12.3.3)
     redis (4.1.2)
@@ -49,7 +49,7 @@ GEM
       ruboty
     ruboty-rurema (0.1.0)
       ruboty
-    ruboty-slack_rtm (3.1.1)
+    ruboty-slack_rtm (3.2.0)
       faraday (~> 0.11)
       ruboty (>= 1.1.4)
       slack-api (~> 1.6)
