@@ -7,13 +7,32 @@ module Ruboty
 
       on(
          /golf list/i,
-         name: 'golf_list',
+         name: 'list',
          description: "List the active problems",
       )
 
-      def golf_list(message)
-        resp = active_problems.map { |p| "* \##{p[:number]}: *#{p[:title]}* until #{p[:deadline] } #{p[:url]}"}.join("\n")
+      on(
+        /golf set-topic\s+(?<channel>\S+)/i,
+        name: 'topic',
+        description: 'Update channel topic with active problems. It requires ruboty-slack_rtm',
+      )
+
+      def list(message)
+        resp = format active_problems
         message.reply resp
+      end
+
+      def topic(message)
+        require 'slack'
+
+        channel = message.match_data['channel']
+
+        problems = format active_problems
+        c = Slack::Client.new(token: ENV.fetch('SLACK_TOKEN'))
+        channel_id = resolve_channel_id(channel)
+        c.channels_setTopic(channel: channel_id, topic: problems)
+      rescue => ex
+        message.reply "Error: #{ex.inspect}"
       end
 
       private def active_problems
@@ -27,6 +46,20 @@ module Ruboty
             deadline: text[/\(([^()]+)\)\s*$/, 1],
           }
         end
+      end
+
+      private def format(problems)
+        problems.map { |p| "* \##{p[:number]}: *#{p[:title]}* until #{p[:deadline] } #{p[:url]}"}.join("\n")
+      end
+
+      private def adapter
+        robot.__send__(:adapter).tap do |adapter|
+          raise "Adapter must be a Ruboty::Adapters::SlackRTM" unless adapter.is_a?(Ruboty::Adapters::SlackRTM)
+        end
+      end
+
+      private def resolve_channel_id(name)
+        adapter.__send__(:resolve_channel_id, name)
       end
     end
   end
