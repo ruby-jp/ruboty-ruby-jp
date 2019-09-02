@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby '2.6.3' # the same version as .ruby-version
+ruby '2.6.4' # the same version as .ruby-version
 
 gem "rake"
 gem 'parser'
