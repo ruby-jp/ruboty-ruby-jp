@@ -41,6 +41,8 @@ module Ruboty
       private def active_problems
         html = URI.open(GOLF_URL).read
         list = html[%r!<h2>Active problems</h2><ul>((?~</ul>))</ul>!im, 1]
+        return [] unless list
+
         list.scan(%r!<li>((?~</li>))</li>!).map do |text,|
           {
             number: text[/^\d+/],
