@@ -33,7 +33,10 @@ module Ruboty
           if params[:channel]
             o[:to] = params[:channel]
           end
-          message.reply tweets.map(&:url).join("\n"), o
+          # Need each_slice because twitter does not exand the URL if it receive too many URLs
+          tweets.each_slice(4) do |tws|
+            message.reply tws.map(&:url).join("\n"), o
+          end
         end
       end
 
