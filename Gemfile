@@ -8,3 +8,4 @@ gem "ruboty-slack_rtm", require: false
 gem 'ruboty-redis'
 gem 'ruboty-cron'
 gem 'ruboty-rurema'
+gem 'twitter'
