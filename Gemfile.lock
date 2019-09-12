@@ -62,7 +62,7 @@ GEM
       activesupport
       chrono
       ruboty (>= 0.2.0)
-    ruboty-rainfall_jp (1.3.0)
+    ruboty-rainfall_jp (1.4.0)
       ruboty
     ruboty-redis (0.0.6)
       redis
@@ -106,7 +106,7 @@ GEM
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
-    zeitwerk (2.1.9)
+    zeitwerk (2.1.10)
 
 PLATFORMS
   ruby
