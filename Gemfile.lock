@@ -62,6 +62,10 @@ GEM
       activesupport
       chrono
       ruboty (>= 0.2.0)
+    ruboty-google_image (0.1.1)
+      faraday
+      faraday_middleware
+      ruboty
     ruboty-rainfall_jp (1.4.0)
       ruboty
     ruboty-redis (0.0.6)
@@ -115,6 +119,7 @@ DEPENDENCIES
   parser
   rake
   ruboty-cron
+  ruboty-google_image
   ruboty-rainfall_jp
   ruboty-redis
   ruboty-rurema
