@@ -27,10 +27,14 @@ module Ruboty
 
         channel = message.match_data['channel']
 
-        new_topic = format active_problems
+        problems = active_problems
+        new_topic = if problems.empty?
+                      'http://golf.shinh.org/'
+                    else
+                      format problems
+                    end
         channel_id = resolve_channel_id(channel)
         current_topic = channel_info(channel_id).dig('topic', 'value')
-        p current_topic
         if current_topic != new_topic
           client.channels_setTopic(channel: channel_id, topic: new_topic)
         end
