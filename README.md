@@ -10,7 +10,7 @@ Development
 
 ```bash
 $ bundle install
-$ REDIS_URL=redis://localhost.com:6379/ RUBOTY_CLI=1 bundle exec ruby main.rb
+$ REDIS_URL=redis://localhost:6379/ RUBOTY_CLI=1 bundle exec ruby main.rb
 ```
 
 
