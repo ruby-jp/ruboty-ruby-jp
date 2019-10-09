@@ -13,6 +13,11 @@ $ bundle install
 $ REDIS_URL=redis://localhost:6379/ RUBOTY_CLI=1 bundle exec ruby main.rb
 ```
 
+If you have docker environment, also can development by run below command
+```bash
+$ docker-compose run ruboty
+```
+
 
 
 Contributing

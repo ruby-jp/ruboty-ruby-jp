@@ -1,0 +1,16 @@
+version: '3'
+services:
+  ruboty:
+    build: .
+    volumes:
+      - .:/ruboty-ruby-jp
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - RUBOTY_CLI=1
+    command: bundle exec ruby main.rb
+    stdin_open: true
+    tty: true
+    links:
+      - redis
+  redis:
+    image: redis
