@@ -7,4 +7,20 @@ require_relative './ruboty-matz'
 require_relative './ruboty-tshirt'
 require_relative './ruboty-twitter-handler'
 
+module RobotSayHelp
+  def receive(attributes)
+    super
+  rescue => ex
+    say body: <<~MSG, to: '#times-pocke'
+      I'm dead! See the following error
+
+      #{ex.inspect}
+      #{ex.backtrace.join("\n")}
+    MSG
+    raise ex
+  end
+end
+
+Ruboty::Robot.prepend RobotSayHelp
+
 Ruboty::CommandBuilder.new(ARGV).build.call
