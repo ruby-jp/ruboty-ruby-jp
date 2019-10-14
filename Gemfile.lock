@@ -1,3 +1,14 @@
+GIT
+  remote: https://github.com/pocke/ruboty-slack_rtm.git
+  revision: f41be85efbc1543bb793a1a0b20003174e26fd27
+  branch: fix/no-reaction
+  specs:
+    ruboty-slack_rtm (3.2.0)
+      faraday (~> 0.11)
+      ruboty (>= 1.1.4)
+      slack-api (~> 1.6)
+      websocket-client-simple (~> 0.3.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -42,7 +53,7 @@ GEM
     memoizable (0.4.2)
       thread_safe (~> 0.3, >= 0.3.1)
     minitest (5.11.3)
-    multi_json (1.13.1)
+    multi_json (1.14.0)
     multipart-post (2.1.1)
     naught (1.1.0)
     parser (2.6.5.0)
@@ -74,11 +85,6 @@ GEM
       ruboty
     ruboty-rurema (0.2.0)
       ruboty
-    ruboty-slack_rtm (3.2.0)
-      faraday (~> 0.11)
-      ruboty (>= 1.1.4)
-      slack-api (~> 1.6)
-      websocket-client-simple (~> 0.3.0)
     simple_oauth (0.3.1)
     slack-api (1.6.1)
       faraday (~> 0.11)
@@ -123,7 +129,7 @@ DEPENDENCIES
   ruboty-rainfall_jp
   ruboty-redis
   ruboty-rurema
-  ruboty-slack_rtm
+  ruboty-slack_rtm!
   twitter
 
 RUBY VERSION
