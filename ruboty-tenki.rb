@@ -2,7 +2,7 @@ module Ruboty
   module Handlers
     class Tenki < Base
       on(
-        /(tenki|天気) (?<location>\w+)/i,
+        /(tenki|天気) (?<location>\S+)/i,
          name: 'tenki',
          description: "Show wttr.in",
       )
