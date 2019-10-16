@@ -29,7 +29,7 @@ module Ruboty
 
         problems = active_problems
         new_topic = if problems.empty?
-                      'http://golf.shinh.org/'
+                      '<http://golf.shinh.org/>'
                     else
                       format problems
                     end
