@@ -1,7 +1,7 @@
 module Ruboty
   module Handlers
     class In < Base
-      IN_RE = /(?<a_colon>:?)(?<a>.+)\g<a_colon> in (?<b_colon>:?)(?<b>.+)\g<b_colon>/
+      IN_RE = /(?<a>(?<a_colon>:?).+\g<a_colon>) in (?<b>(?<b_colon>:?).+\g<b_colon>)/
 
       on(
          IN_RE,
@@ -13,8 +13,9 @@ module Ruboty
         if IN_RE =~ a
           inner = nest($~[:a], $~[:b])
         else
-          inner = [a]
+          inner = [a.gsub(/\A:|:\z/, '')]
         end
+        b = b.gsub(/\A:|:\z/, '')
         [
           [b] * (inner.size + 2),
           *inner.map{|row| [b, *row, b] },
