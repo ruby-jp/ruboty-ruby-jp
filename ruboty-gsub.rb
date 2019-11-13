@@ -2,7 +2,7 @@ module Ruboty
   module Handlers
     class Gsub < Base
       on(
-        %r!gsub (?<receiver>['"].+['"]) /(?<pattern>.+)/ (?<replacement>['"].+['"])!im,
+        %r!gsub (?<receiver>".+") /(?<pattern>.+)/ (?<replacement>".+")!im,
          name: 'gsub',
          description: '$1.gsub(Regexp.new($2), $3)',
       )
