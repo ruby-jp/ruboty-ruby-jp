@@ -72,6 +72,8 @@ GEM
       redis
       redis-namespace
       ruboty
+    ruboty-replace (0.0.1)
+      ruboty
     ruboty-rurema (0.2.0)
       ruboty
     ruboty-slack_rtm (3.2.1)
@@ -122,6 +124,7 @@ DEPENDENCIES
   ruboty-google_image
   ruboty-rainfall_jp
   ruboty-redis
+  ruboty-replace
   ruboty-rurema
   ruboty-slack_rtm
   twitter
