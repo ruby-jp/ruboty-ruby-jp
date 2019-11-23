@@ -10,11 +10,7 @@ module Ruboty
       )
 
       def numberplace(message)
-        message.reply <<~MSG
-          ```
-          #{format gen}
-          ```
-        MSG
+        message.reply format gen
       end
 
       N = 3
@@ -64,29 +60,32 @@ module Ruboty
 
       def format(boxes)
         res = ''
-        boxes.each_slice(N2).with_index do |line, lineno|
-          left, middle, right =
-            if lineno == 0
-              ['┏', '┳', '┓']
-            else
-              ['┣', '╋', '┫']
+        boxes.each_slice(N2).with_index do |line, idx|
+          line.each_slice(N) do |group|
+            group.each do |box|
+              res << to_emoji(box)
             end
-          res << left
-          res << (('━' + middle) * (N2-1)) << '━' << right << "\n" << "┃"
-
-          line.each do |box|
-            if box
-              res << box.to_s << ' '
-            else
-              res << '  '
-            end
-            res << "┃"
+            res << ' '
           end
           res << "\n"
+          res << "\n" if idx % N == N - 1
         end
-
-        res << '┗' << ('━┻' * (N2-1)) << '━' << '┛'
         res
+      end
+
+      def to_emoji(n)
+        {
+          1 => ':one:',
+          2 => ':two:',
+          3 => ':three:',
+          4 => ':four:',
+          5 => ':five:',
+          6 => ':six:',
+          7 => ':seven:',
+          8 => ':eight:',
+          9 => ':nine:',
+          nil => ':transparent2:',
+        }[n]
       end
     end
   end
