@@ -10,6 +10,7 @@ require_relative './ruboty-twitter-handler'
 require_relative './ruboty-tenki'
 require_relative './ruboty-gsub'
 require_relative './ruboty-in'
+require_relative './ruboty-numberplace'
 
 module RobotSayHelp
   def receive(attributes)

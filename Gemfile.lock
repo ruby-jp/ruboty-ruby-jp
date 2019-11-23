@@ -44,6 +44,7 @@ GEM
     minitest (5.12.2)
     multi_json (1.14.1)
     multipart-post (2.1.1)
+    namero (0.0.2)
     naught (1.1.0)
     parser (2.6.5.0)
       ast (~> 2.4.0)
@@ -118,6 +119,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  namero
   parser
   rake
   ruboty-cron
