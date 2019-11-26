@@ -13,9 +13,9 @@ module Ruboty
         if IN_RE =~ a
           inner = nest($~[:a], $~[:b])
         else
-          inner = [a.gsub(/\A:|:\z/, '')]
+          inner = [a.strip.gsub(/\A:|:\z/, '')]
         end
-        b = b.gsub(/\A:|:\z/, '')
+        b = b.strip.gsub(/\A:|:\z/, '')
         [
           [b] * (inner.size + 2),
           *inner.map{|row| [b, *row, b] },
