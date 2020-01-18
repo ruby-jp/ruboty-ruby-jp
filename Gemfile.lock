@@ -38,7 +38,7 @@ GEM
       domain_name (~> 0.5)
     http-form_data (2.1.1)
     http_parser.rb (0.6.0)
-    i18n (1.7.0)
+    i18n (1.8.2)
       concurrent-ruby (~> 1.0)
     mem (0.1.5)
     memoizable (0.4.2)
@@ -65,7 +65,7 @@ GEM
       activesupport
       chrono
       ruboty (>= 0.2.0)
-    ruboty-faker (0.1.0)
+    ruboty-faker (0.1.1)
       faker (< 3)
     ruboty-google_image (0.1.1)
       faraday
