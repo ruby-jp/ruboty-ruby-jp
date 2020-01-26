@@ -25,7 +25,11 @@ module Ruboty
       end
 
       def selected_channel
-        client.conversations_list["channels"].map(&channel_information).sample
+        channels.map(&channel_information).sample
+      end
+
+      def channels
+        client.conversations_list({ exclude_archived: true })['channels']
       end
 
       def client
@@ -35,9 +39,9 @@ module Ruboty
       def channel_information
         -> (channel) do
           OpenStruct.new({
-            name: channel["name"],
-            topic: channel["topic"]["value"],
-            purpose: channel["purpose"]["value"]
+            name: channel['name'],
+            topic: channel['topic']['value'],
+            purpose: channel['purpose']['value']
           })
         end
       end
