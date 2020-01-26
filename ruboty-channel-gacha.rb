@@ -25,7 +25,7 @@ module Ruboty
       end
 
       def selected_channel
-        client.channels_list["channels"].map(&channel_information).sample
+        client.conversations_list["channels"].map(&channel_information).sample
       end
 
       def client
