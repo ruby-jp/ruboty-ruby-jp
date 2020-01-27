@@ -5,16 +5,20 @@ module Ruboty
   module Handlers
     class ChannelGacha < Base
       on(
-        %r!(channel_gacha)|(チャンネルガチャ)!,
+        %r!((?<option>\S+) )?((channel_gacha)|(チャンネルガチャ))!,
         name: 'channel_gacha',
         description: 'returns randomly channel information',
       )
 
       def channel_gacha(message)
-        message.reply format(selected_channel)
+        message.tap(&set_option).reply format(selected_channel)
       end
 
       private
+
+      def set_option
+        -> (message) { @option = message.match_data['option'] }
+      end
 
       def format(channel)
         <<~MESSAGE
@@ -29,6 +33,14 @@ module Ruboty
       end
 
       def channels
+        @channels = (reload? || !@channels) ? fetch_channels : @channels
+      end
+
+      def reload?
+        @option == '-r'
+      end
+
+      def fetch_channels
         @next_cursor, @channels = nil, []
         until @next_cursor&.empty?
           response = client.conversations_list(request_params)
