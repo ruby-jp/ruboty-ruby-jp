@@ -29,11 +29,27 @@ module Ruboty
       end
 
       def channels
-        client.conversations_list({ exclude_archived: true })['channels']
+        @next_cursor, @channels = nil, []
+        until @next_cursor&.empty?
+          response = client.conversations_list(request_params)
+          @next_cursor = response['response_metadata']['next_cursor']
+          @channels.concat(response['channels'])
+        end
+        @channels
       end
 
       def client
         Slack::Client.new(token: ENV.fetch('SLACK_TOKEN'))
+      end
+
+      def request_params
+        { exclude_archived: true, limit: 200 }.tap(&merge_cursor)
+      end
+
+      def merge_cursor
+        -> (params) do
+          params.merge!({ cursor: @next_cursor }) if @next_cursor.present?
+        end
       end
 
       def channel_information
