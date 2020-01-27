@@ -1,5 +1,6 @@
 require 'slack'
 require 'ostruct'
+require 'active_support'
 
 module Ruboty
   module Handlers

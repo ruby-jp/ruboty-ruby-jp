@@ -123,6 +123,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activesupport
   namero
   parser
   rake
@@ -134,6 +135,7 @@ DEPENDENCIES
   ruboty-replace
   ruboty-rurema
   ruboty-slack_rtm
+  slack-api
   twitter
 
 RUBY VERSION
