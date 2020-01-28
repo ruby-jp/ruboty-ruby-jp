@@ -23,7 +23,7 @@ module Ruboty
 
       def format(channel)
         <<~MESSAGE
-          チャンネル名: #{channel.name}
+          チャンネル名: ##{channel.name}
           トピック: #{channel.topic.presence || '未設定'}
           説明: #{channel.purpose.presence || '未設定'}
         MESSAGE
