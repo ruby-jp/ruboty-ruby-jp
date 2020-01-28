@@ -65,6 +65,8 @@ GEM
       activesupport
       chrono
       ruboty (>= 0.2.0)
+    ruboty-echo (0.1.1)
+      ruboty
     ruboty-faker (0.1.1)
       faker (< 3)
     ruboty-google_image (0.1.1)
@@ -128,6 +130,7 @@ DEPENDENCIES
   parser
   rake
   ruboty-cron
+  ruboty-echo
   ruboty-faker
   ruboty-google_image
   ruboty-rainfall_jp
