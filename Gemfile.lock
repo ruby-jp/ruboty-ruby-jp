@@ -88,6 +88,8 @@ GEM
       ruboty (>= 1.1.4)
       slack-api (~> 1.6)
       websocket-client-simple (~> 0.3.0)
+    ruboty-zoi (1.1.0)
+      ruboty
     simple_oauth (0.3.1)
     slack-api (1.6.1)
       faraday (~> 0.11)
@@ -138,6 +140,7 @@ DEPENDENCIES
   ruboty-replace
   ruboty-rurema
   ruboty-slack_rtm
+  ruboty-zoi
   slack-api
   twitter
 
