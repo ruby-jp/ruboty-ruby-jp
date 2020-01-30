@@ -12,16 +12,22 @@ module Ruboty
       )
 
       def channel_gacha(message)
-        message.tap(&set_option).reply format(selected_channel)
+        set_option(message)
+        message.reply pre_message if with_pre_message?
+        message.reply main_message(selected_channel)
       end
 
       private
 
-      def set_option
-        -> (message) { @option = message.match_data['option'] }
+      def set_option(message)
+        @option = message.match_data['option']
       end
 
-      def format(channel)
+      def pre_message
+        @option.split('=', 2).tap(&:shift) if with_pre_message?
+      end
+
+      def main_message(channel)
         <<~MESSAGE
           チャンネル名: ##{channel.name}
           トピック: #{channel.topic.presence || '未設定'}
@@ -39,6 +45,10 @@ module Ruboty
 
       def reload?
         @option == '-r'
+      end
+
+      def with_pre_message?
+        @option =~ %r!\A-pre!
       end
 
       def fetch_channels
