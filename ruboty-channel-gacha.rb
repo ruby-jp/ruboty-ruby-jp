@@ -27,7 +27,7 @@ module Ruboty
       end
 
       def pre_message
-        @option.split('=', 2).tap(&:shift) if with_pre_message?
+        @option.split('=', 2)[1] if with_pre_message?
       end
 
       def main_message(channel)
