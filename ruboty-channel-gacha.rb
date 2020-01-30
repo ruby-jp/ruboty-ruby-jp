@@ -13,14 +13,17 @@ module Ruboty
 
       def channel_gacha(message)
         set_option(message)
-        message.reply pre_message if with_pre_message?
-        message.reply main_message(selected_channel)
+        message.reply messages.join("\n")
       end
 
       private
 
       def set_option(message)
         @option = message.match_data['option']
+      end
+
+      def messages
+        [pre_message, main_message(selected_channel)].compact
       end
 
       def pre_message
@@ -48,7 +51,7 @@ module Ruboty
       end
 
       def with_pre_message?
-        @option =~ %r!\A-pre!
+        @option =~ /\A-pre/
       end
 
       def fetch_channels
