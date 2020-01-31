@@ -31,11 +31,19 @@ module Ruboty
       end
 
       def main_message(channel)
-        <<~MESSAGE
-          チャンネル名: ##{channel.name}
-          トピック: #{channel.topic.presence || '未設定'}
-          説明: #{channel.purpose.presence || '未設定'}
-        MESSAGE
+        [channel_name(channel), topic(channel), purpose(channel)].compact.join("\n")
+      end
+
+      def channel_name(channel)
+        "チャンネル名: ##{channel.name}"
+      end
+
+      def topic(channel)
+        "トピック: #{channel.topic}" if channel.topic.present?
+      end
+
+      def purpose(channel)
+        "説明: #{channel.purpose}" if channel.purpose.present?
       end
 
       def selected_channel
