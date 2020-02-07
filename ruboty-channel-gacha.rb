@@ -35,7 +35,7 @@ module Ruboty
       end
 
       def channel_name(channel)
-        "チャンネル名: ##{channel.name}"
+        "チャンネル名: <##{channel.id}>"
       end
 
       def topic(channel)
@@ -89,7 +89,7 @@ module Ruboty
       def channel_information
         -> (channel) do
           OpenStruct.new({
-            name: channel['name'],
+            id: channel['id'],
             topic: channel['topic']['value'],
             purpose: channel['purpose']['value']
           })
