@@ -1,5 +1,4 @@
 require 'slack'
-require 'ostruct'
 require 'active_support'
 
 module Ruboty
@@ -23,35 +22,19 @@ module Ruboty
       end
 
       def messages
-        [pre_message, main_message(selected_channel)].compact
+        [pre_message, selected_channel.channel_information].compact
       end
 
       def pre_message
         @option.split('=', 2)[1] if with_pre_message?
       end
 
-      def main_message(channel)
-        [channel_name(channel), topic(channel), purpose(channel)].compact.join("\n")
-      end
-
-      def channel_name(channel)
-        "チャンネル名: <##{channel.id}>"
-      end
-
-      def topic(channel)
-        "トピック: #{channel.topic}" if channel.topic.present?
-      end
-
-      def purpose(channel)
-        "説明: #{channel.purpose}" if channel.purpose.present?
-      end
-
       def selected_channel
-        channels.map(&channel_information).sample
+        channels.sample
       end
 
       def channels
-        @channels = (reload? || !@channels) ? SlackApi::Channel.all_public_channels : @channels
+        @channels = (reload? || !@channels) ? Ruboty::RubyJP::Channel.all : @channels
       end
 
       def reload?
@@ -61,15 +44,39 @@ module Ruboty
       def with_pre_message?
         @option =~ /\A-pre/
       end
+    end
+  end
+
+  module RubyJP
+    class Channel
+      attr_writer :id, :topic, :purpose
+
+      def initialize(channel)
+        @id = channel['id']
+        @topic = channel['topic']['value']
+        @purpose = channel['purpose']['value']
+      end
+
+      class << self
+        def all
+          Ruboty::SlackApi::Channel.all_public_channels.map(&method(:new))
+        end
+      end
 
       def channel_information
-        -> (channel) do
-          OpenStruct.new({
-            id: channel['id'],
-            topic: channel['topic']['value'],
-            purpose: channel['purpose']['value']
-          })
-        end
+        [channel_name, topic, purpose].compact.join("\n")
+      end
+
+      def channel_name
+        "チャンネル名: <##{@id}>"
+      end
+
+      def topic
+        "トピック: #{@topic}" if @topic.present?
+      end
+
+      def purpose
+        "説明: #{@purpose}" if @purpose.present?
       end
     end
   end
