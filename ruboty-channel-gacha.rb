@@ -17,16 +17,8 @@ module Ruboty
 
       private
 
-      def set_option(message)
-        @option = message.match_data['option']
-      end
-
       def messages(option)
         [option.pre_message, channels(option.reload?).sample.channel_information].compact
-      end
-
-      def selected_channel
-        channels.sample
       end
 
       def channels(reload)
