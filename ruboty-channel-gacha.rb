@@ -11,8 +11,8 @@ module Ruboty
       )
 
       def channel_gacha(message)
-        set_option(message)
-        message.reply messages.join("\n")
+        option = Options::Channel.new(message)
+        message.reply messages(option).join("\n")
       end
 
       private
@@ -21,28 +21,36 @@ module Ruboty
         @option = message.match_data['option']
       end
 
-      def messages
-        [pre_message, selected_channel.channel_information].compact
-      end
-
-      def pre_message
-        @option.split('=', 2)[1] if with_pre_message?
+      def messages(option)
+        [option.pre_message, channels(option.reload?).sample.channel_information].compact
       end
 
       def selected_channel
         channels.sample
       end
 
-      def channels
-        @channels = (reload? || !@channels) ? Ruboty::RubyJP::Channel.all : @channels
+      def channels(reload)
+        @channels = (reload || !@channels) ? Ruboty::RubyJP::Channel.all : @channels
       end
+    end
 
-      def reload?
-        @option == '-r'
-      end
+    module Options
+      class Channel
+        def initialize(message)
+          @option = message.match_data['option']
+        end
 
-      def with_pre_message?
-        @option =~ /\A-pre/
+        def reload?
+          @option == '-r'
+        end
+
+        def pre_message
+          @option.split('=', 2)[1] if with_pre_message?
+        end
+
+        def with_pre_message?
+          @option =~ /\A-pre/
+        end
       end
     end
   end
