@@ -12,17 +12,29 @@ module Ruboty
 
       def channel_gacha(message)
         option = Options::Channel.new(message)
-        message.reply messages(option).join("\n")
+        message.reply channels(option.reload?).then { Replies::ChannelGacha.create(_1, option.pre_message) }
       end
 
       private
 
-      def messages(option)
-        [option.pre_message, channels(option.reload?).sample.channel_information].compact
-      end
-
       def channels(reload)
         @channels = (reload || !@channels) ? Ruboty::RubyJP::Channel.all : @channels
+      end
+    end
+
+    module Replies
+      module ChannelGacha
+        class << self
+          def create(channels, pre_message)
+            messages(channels, pre_message).join("\n")
+          end
+
+          private
+
+          def messages(channels, pre_message)
+            [pre_message, channels.sample.channel_information].compact
+          end
+        end
       end
     end
 
