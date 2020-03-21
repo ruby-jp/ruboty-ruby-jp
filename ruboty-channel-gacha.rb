@@ -12,13 +12,8 @@ module Ruboty
 
       def channel_gacha(message)
         option = Options::Channel.new(message)
-        message.reply channels(option.reload?).then { Replies::ChannelGacha.create(_1, option.pre_message) }
-      end
-
-      private
-
-      def channels(reload)
-        @channels = (reload || !@channels) ? Ruboty::RubyJP::Channel.all : @channels
+        message.reply RubyJP::Channel.cache(reload: option.reload?)
+                                     .then { Replies::ChannelGacha.create(_1, option.pre_message) }
       end
     end
 
@@ -59,6 +54,20 @@ module Ruboty
     end
   end
 
+  class Cache
+    @store ||= ActiveSupport::Cache::MemoryStore.new
+
+    class << self
+      def store
+        @store
+      end
+
+      def fetch(name, reload: false, &block)
+        store.tap { _1.clear if reload }.fetch(name, &block)
+      end
+    end
+  end
+
   module RubyJP
     class Channel
       attr_writer :id, :topic, :purpose
@@ -70,6 +79,10 @@ module Ruboty
       end
 
       class << self
+        def cache(reload: false)
+          Cache.fetch('channels', reload: reload) { all }
+        end
+
         def all
           Ruboty::SlackApi::Channel.all_public_channels.map(&method(:new))
         end
