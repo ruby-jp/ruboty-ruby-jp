@@ -85,7 +85,7 @@ module RubyJP
       end
 
       def all
-        SlackApi::Channel.all_public_channels.map(&method(:new))
+        SlackApi::Channel.new.fetch_public_channels.map(&method(:new))
       end
     end
 
@@ -109,16 +109,14 @@ end
 
 module SlackApi
   class Channel
-    class << self
-      def all_public_channels
-        new.fetch_public_channels
-      end
+    def initialize
+      @client = client
     end
 
     def fetch_public_channels
       channels, next_cursor = [], nil
       until next_cursor&.empty?
-        response = client.conversations_list request_params(next_cursor)
+        response = @client.conversations_list request_params(next_cursor)
         next_cursor = response['response_metadata']['next_cursor']
         channels.concat(response['channels'])
       end
