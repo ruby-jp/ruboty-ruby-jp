@@ -12,7 +12,7 @@ module Ruboty
 
       def channel_gacha(message)
         option = Options::Channel.new(message.match_data['option'])
-        message.reply RubyJP::Channel.cache(reload: option.reload?)
+        message.reply RubyJP::Channel.all(reload: option.reload?)
                                      .then { Replies::ChannelGacha.create(_1, option.pre_message) }
       end
     end
@@ -80,12 +80,14 @@ module RubyJP
     end
 
     class << self
-      def cache(reload: false)
-        Cache.fetch('channels', reload: reload) { all }
+      def all(reload: false)
+        cache(reload: reload) { SlackApi::Channel.new.fetch_public_channels.map(&method(:new)) }
       end
 
-      def all
-        SlackApi::Channel.new.fetch_public_channels.map(&method(:new))
+      private
+
+      def cache(reload: false, &block)
+        Cache.fetch('channels', reload: reload, &block)
       end
     end
 
