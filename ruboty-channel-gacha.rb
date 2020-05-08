@@ -13,7 +13,7 @@ module Ruboty
       def channel_gacha(message)
         option = Options::Channel.new(message.match_data['option'])
         message.reply RubyJP::Channel.all(reload: option.reload?)
-                                     .then { Replies::ChannelGacha.create(_1, option.pre_message) }
+                                     .then { |channels| Replies::ChannelGacha.create(channels, option.pre_message) }
       end
     end
   end
