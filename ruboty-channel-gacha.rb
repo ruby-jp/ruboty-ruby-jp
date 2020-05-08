@@ -11,7 +11,7 @@ module Ruboty
       )
 
       def channel_gacha(message)
-        option = Options::Channel.new(message)
+        option = Options::Channel.new(message.match_data['option'])
         message.reply RubyJP::Channel.cache(reload: option.reload?)
                                      .then { Replies::ChannelGacha.create(_1, option.pre_message) }
       end
@@ -37,8 +37,8 @@ end
 
 module Options
   class Channel
-    def initialize(message)
-      @option = message.match_data['option']
+    def initialize(option)
+      @option = option
     end
 
     def reload?
