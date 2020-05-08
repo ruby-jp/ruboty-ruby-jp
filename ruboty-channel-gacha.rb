@@ -118,7 +118,7 @@ module SlackApi
     def fetch_public_channels
       channels, next_cursor = [], nil
       until next_cursor&.empty?
-        response = request_params(next_cursor).then(&client.method(:conversations_list))
+        response = client.conversations_list request_params(next_cursor)
         next_cursor = response['response_metadata']['next_cursor']
         channels.concat(response['channels'])
       end
