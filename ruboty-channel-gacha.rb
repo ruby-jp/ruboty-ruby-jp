@@ -65,7 +65,7 @@ module RubyJP
       end
 
       def fetch(name, reload: false, &block)
-        store.tap { _1.clear if reload }.fetch(name, &block)
+        store.tap { _1.delete(name) if reload }.fetch(name, &block)
       end
     end
   end
