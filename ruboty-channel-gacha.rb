@@ -1,5 +1,4 @@
 require 'slack'
-require 'ostruct'
 require 'active_support'
 
 module Ruboty
@@ -12,89 +11,128 @@ module Ruboty
       )
 
       def channel_gacha(message)
-        set_option(message)
-        message.reply messages.join("\n")
+        option = Options::Channel.new(message.match_data['option'])
+        message.reply RubyJP::Channel.all(reload: option.reload?)
+                                     .then { |channels| Replies::ChannelGacha.create(channels, option.pre_message) }
+      end
+    end
+  end
+end
+
+module Replies
+  module ChannelGacha
+    class << self
+      def create(channels, pre_message)
+        messages(channels, pre_message).join("\n")
       end
 
       private
 
-      def set_option(message)
-        @option = message.match_data['option']
+      def messages(channels, pre_message)
+        [pre_message, channels.sample.channel_information].compact
+      end
+    end
+  end
+end
+
+module Options
+  class Channel
+    def initialize(option)
+      @option = option
+    end
+
+    def reload?
+      @option == '-r'
+    end
+
+    def pre_message
+      @option.split('=', 2)[1] if with_pre_message?
+    end
+
+    def with_pre_message?
+      @option =~ /\A-pre/
+    end
+  end
+end
+
+module RubyJP
+  class Cache
+    @store ||= ActiveSupport::Cache::MemoryStore.new
+
+    class << self
+      def store
+        @store
       end
 
-      def messages
-        [pre_message, main_message(selected_channel)].compact
+      def fetch(name, reload: false, &block)
+        store.tap { _1.delete(name) if reload }.fetch(name, &block)
+      end
+    end
+  end
+
+  class Channel
+    attr_writer :id, :topic, :purpose
+
+    def initialize(channel)
+      @id = channel['id']
+      @topic = channel['topic']['value']
+      @purpose = channel['purpose']['value']
+    end
+
+    class << self
+      def all(reload: false)
+        cache(reload: reload) { SlackApi::Channel.new.fetch_public_channels.map(&method(:new)) }
       end
 
-      def pre_message
-        @option.split('=', 2)[1] if with_pre_message?
-      end
+      private
 
-      def main_message(channel)
-        [channel_name(channel), topic(channel), purpose(channel)].compact.join("\n")
+      def cache(reload: false, &block)
+        Cache.fetch('channels', reload: reload, &block)
       end
+    end
 
-      def channel_name(channel)
-        "チャンネル名: <##{channel.id}>"
-      end
+    def channel_information
+      [channel_name, topic, purpose].compact.join("\n")
+    end
 
-      def topic(channel)
-        "トピック: #{channel.topic}" if channel.topic.present?
-      end
+    def channel_name
+      "チャンネル名: <##{@id}>"
+    end
 
-      def purpose(channel)
-        "説明: #{channel.purpose}" if channel.purpose.present?
-      end
+    def topic
+      "トピック: #{@topic}" if @topic.present?
+    end
 
-      def selected_channel
-        channels.map(&channel_information).sample
-      end
+    def purpose
+      "説明: #{@purpose}" if @purpose.present?
+    end
+  end
+end
 
-      def channels
-        @channels = (reload? || !@channels) ? fetch_channels : @channels
-      end
+module SlackApi
+  class Channel
+    def initialize
+      @client = client
+    end
 
-      def reload?
-        @option == '-r'
+    def fetch_public_channels
+      channels, next_cursor = [], nil
+      until next_cursor&.empty?
+        response = @client.conversations_list request_params(next_cursor)
+        next_cursor = response['response_metadata']['next_cursor']
+        channels.concat(response['channels'])
       end
+      channels
+    end
 
-      def with_pre_message?
-        @option =~ /\A-pre/
-      end
+    private
 
-      def fetch_channels
-        @next_cursor, @channels = nil, []
-        until @next_cursor&.empty?
-          response = client.conversations_list(request_params)
-          @next_cursor = response['response_metadata']['next_cursor']
-          @channels.concat(response['channels'])
-        end
-        @channels
-      end
+    def client
+      Slack::Client.new(token: ENV.fetch('SLACK_TOKEN'))
+    end
 
-      def client
-        Slack::Client.new(token: ENV.fetch('SLACK_TOKEN'))
-      end
-
-      def request_params
-        { exclude_archived: true, limit: 200 }.tap(&merge_cursor)
-      end
-
-      def merge_cursor
-        -> (params) do
-          params.merge!({ cursor: @next_cursor }) if @next_cursor.present?
-        end
-      end
-
-      def channel_information
-        -> (channel) do
-          OpenStruct.new({
-            id: channel['id'],
-            topic: channel['topic']['value'],
-            purpose: channel['purpose']['value']
-          })
-        end
-      end
+    def request_params(next_cursor)
+      { exclude_archived: true, limit: 200 }.tap { _1.merge!({ cursor: next_cursor }) if next_cursor.present? }
     end
   end
 end
