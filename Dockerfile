@@ -1,4 +1,4 @@
-FROM rubylang/ruby:2.7.0-bionic
+FROM rubylang/ruby:2.7.1-bionic
 WORKDIR /ruboty-ruby-jp
 
 RUN apt update \
