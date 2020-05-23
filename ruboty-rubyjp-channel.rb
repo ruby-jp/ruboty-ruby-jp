@@ -5,13 +5,13 @@ module Ruboty
   module Handlers
     class ChannelGacha < Base
       on(
-        %r!((?<option>\S+) )?((channel_gacha)|(チャンネルガチャ))!,
+        %r!(?<options>(\S+ )*)?((channel_gacha)|(チャンネルガチャ))!,
         name: 'channel_gacha',
         description: 'returns randomly channel information',
       )
 
       def channel_gacha(message)
-        option = Options::Channel.new(message.match_data['option'])
+        option = Options::Channel.build(message.match_data['options'])
         message.reply RubyJP::Channel.all(reload: option.reload?)
                                      .then { |channels| Replies::ChannelGacha.create(channels, option.pre_message) }
       end
@@ -19,13 +19,13 @@ module Ruboty
 
     class NewChannel < Base
       on(
-        %r!((?<option>\S+) )?((new_channels)|(新チャンネル))!,
+        %r!(?<options>(\S+ )*)?((new_channels)|(新チャンネル))!,
         name: 'recent_new_channels',
         description: 'returns recent new channels information',
       )
 
       def recent_new_channels(message)
-        option = Options::Channel.new(message.match_data['option'])
+        option = Options::Channel.build(message.match_data['options'])
         message.reply RubyJP::Channel.all(reload: option.reload?)
                                      .then { |channels| Replies::NewChannel.create(channels, option.pre_message) }
       end
@@ -69,20 +69,33 @@ end
 
 module Options
   class Channel
-    def initialize(option)
-      @option = option
+    attr_reader :pre_message
+
+    class << self
+      def build(options)
+        options.split(' ').map { parse _1 }.compact.to_h.then { |params| new(params) }
+      end
+
+      def parse(option)
+        case option
+        in /\A-(\S+?)=(\S+)/ => with_value
+          option_name, value = with_value.split('=', 2)
+          [option_name[1..].to_sym, value]
+        in /\A-/ => option_name
+          [option_name[1..].to_sym, true]
+        in /\A[^-]?/
+          nil
+        end
+      end
+    end
+
+    def initialize(options = {})
+      @reload = options[:r] || false
+      @pre_message = options[:pre]
     end
 
     def reload?
-      @option == '-r'
-    end
-
-    def pre_message
-      @option.split('=', 2)[1] if with_pre_message?
-    end
-
-    def with_pre_message?
-      @option =~ /\A-pre/
+      @reload
     end
   end
 end
