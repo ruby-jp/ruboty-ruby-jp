@@ -16,6 +16,20 @@ module Ruboty
                                      .then { |channels| Replies::ChannelGacha.create(channels, option.pre_message) }
       end
     end
+
+    class NewChannel < Base
+      on(
+        %r!((?<option>\S+) )?((new_channels)|(新チャンネル))!,
+        name: 'recent_new_channels',
+        description: 'returns recent new channels information',
+      )
+
+      def recent_new_channels(message)
+        option = Options::Channel.new(message.match_data['option'])
+        message.reply RubyJP::Channel.all(reload: option.reload?)
+                                     .then { |channels| Replies::NewChannel.create(channels, option.pre_message) }
+      end
+    end
   end
 end
 
@@ -30,6 +44,24 @@ module Replies
 
       def messages(channels, pre_message)
         [pre_message, channels.sample.channel_information].compact
+      end
+    end
+  end
+
+  module NewChannel
+    class << self
+      def create(channels, pre_message)
+        channels.select(&:created_until_now?).then { |new_channels| messages(new_channels, pre_message) }.join("\n\n")
+      end
+
+      private
+
+      def messages(channels, pre_message)
+        [pre_message, message_for_count(channels), *channels.map(&:channel_information)].compact
+      end
+
+      def message_for_count(channels)
+        "新チャンネル数(24時間以内): #{channels.length}"
       end
     end
   end
@@ -77,6 +109,7 @@ module RubyJP
       @id = channel['id']
       @topic = channel['topic']['value']
       @purpose = channel['purpose']['value']
+      @created = Time.at(channel['created'])
     end
 
     class << self
@@ -105,6 +138,11 @@ module RubyJP
 
     def purpose
       "説明: #{@purpose}" if @purpose.present?
+    end
+
+    def created_until_now?
+      Time.zone = 'Tokyo'
+      @created.between?(Time.zone.now.yesterday, Time.zone.now)
     end
   end
 end
