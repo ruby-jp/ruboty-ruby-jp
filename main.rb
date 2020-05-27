@@ -12,6 +12,7 @@ require_relative './ruboty-gsub'
 require_relative './ruboty-in'
 require_relative './ruboty-numberplace'
 require_relative './ruboty-channel-gacha'
+require_relative './ruboty-kata'
 
 module RobotSayHelp
   def receive(attributes)
