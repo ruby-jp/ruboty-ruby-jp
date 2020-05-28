@@ -46,7 +46,7 @@ GEM
     minitest (5.14.1)
     multi_json (1.14.1)
     multipart-post (2.1.1)
-    namero (0.0.2)
+    namero (0.0.3)
     naught (1.1.0)
     parser (2.7.1.3)
       ast (~> 2.4.0)
