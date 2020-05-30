@@ -4,13 +4,14 @@ module Ruboty
   module Handlers
     class NumberPlace < Base
       on(
-         /(number[-_]?place)|ナンプレ|なんぷれ/i,
+         /((?:number[-_]?place)|ナンプレ|なんぷれ)(?:\s+(?<n>\d+))?/i,
          name: 'numberplace',
          description: "Generate number place puzzle",
       )
 
       def numberplace(message)
-        message.reply format gen
+        n = message.match_data[:n]&.to_i || 9
+        message.reply format gen(**parameters(n))
       end
 
       N = 3
@@ -18,33 +19,54 @@ module Ruboty
       BOX_COUNT = N2*N2
       INITIAL_FILLED_COUNTS = [*20..30]
 
-      def gen
-        boxes = BOX_COUNT.times.map{nil}
+      def gen(n:, root_n:, box_count:, initial_filled_counts:)
+        boxes = box_count.times.map{nil}
 
-        INITIAL_FILLED_COUNTS.sample.times do
-          pos = rand(BOX_COUNT)
+        initial_filled_counts.sample.times do
+          pos = rand(box_count)
           redo if boxes[pos]
 
-          x = pos / N2
-          y = pos % N2
+          x = pos / n
+          y = pos % n
 
-          value = rand(N2) + 1
+          value = rand(n) + 1
 
           # same line
-          redo if boxes[pos - y, N2].any?{|v| v == value}
+          redo if boxes[pos - y, n].any?{|v| v == value}
           # same column
-          redo if y.step(by: N2, to: BOX_COUNT).any?{|i| boxes[i] == value}
+          redo if y.step(by: n, to: box_count).any?{|i| boxes[i] == value}
           # same block
-          block_topleft = (x / N * N * N2) + (y / N * N)
-          redo if N.times.any? {|i| boxes[block_topleft + N2 * i, N].any?{|v| v == value} }
+          block_topleft = (x / root_n * root_n * n) + (y / root_n * root_n)
+          redo if root_n.times.any? {|i| boxes[block_topleft + n * i, root_n].any?{|v| v == value} }
 
           boxes[pos] = value
         end
 
-        board = Namero::Board.load_from_array(boxes, N2)
+        board = Namero::Board.load_from_array(boxes, n)
         Namero::Solver.new(board, extensions: [Namero::SolverExtensions::CandidateExistsOnlyOnePlace]).solve
         return boxes if board.complete?
-        gen
+        gen(n: n, root_n: root_n, box_count: box_count, initial_filled_counts: initial_filled_counts)
+      end
+
+      def parameters(n)
+        initial_filled_counts =
+          case n
+          when 4
+            [*4..6] # is it proper?
+          when 9
+            [*20..30]
+          when 16
+            [*70..90] # is it proper?
+          else
+            raise "not supported N: #{n}"
+          end
+
+        {
+          n: n,
+          root_n: Integer.sqrt(n),
+          box_count: n * n,
+          initial_filled_counts: initial_filled_counts,
+        }
       end
 
       def format(boxes)
