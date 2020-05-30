@@ -41,21 +41,10 @@ module Ruboty
           boxes[pos] = value
         end
 
-        board = Namero::Board.load_from_string(format_for_namero(boxes), N2)
+        board = Namero::Board.load_from_array(boxes, N2)
         Namero::Solver.new(board, extensions: [Namero::SolverExtensions::CandidateExistsOnlyOnePlace]).solve
         return boxes if board.complete?
         gen
-      end
-
-      def format_for_namero(boxes)
-        res = ''
-        boxes.each_slice(N2) do |line|
-          line.each do |box|
-            res << (box ? box.to_s : '.')
-          end
-          res << "\n"
-        end
-        res
       end
 
       def format(boxes)
