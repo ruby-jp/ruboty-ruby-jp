@@ -53,8 +53,8 @@ module Ruboty
             [*4..6] # is it proper?
           when 9
             [*20..30]
-          when 16
-            [*70..90] # is it proper?
+          # when 16 # 16x16 is too slow
+          #   [*70..90] # is it proper?
           else
             raise "not supported N: #{n}"
           end
