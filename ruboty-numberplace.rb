@@ -3,6 +3,8 @@ require 'namero'
 module Ruboty
   module Handlers
     class NumberPlace < Base
+      class UserVisibleError < StandardError; end
+
       on(
          /((?:number[-_]?place)|ナンプレ|なんぷれ)(?:\s+(?<n>\d+))?/i,
          name: 'numberplace',
@@ -14,6 +16,8 @@ module Ruboty
         params = parameters(n)
         resp = format gen(**params), **params
         message.reply(resp)
+      rescue UserVisibleError => ex
+        message.reply ex.message
       end
 
       def gen(n:, root_n:, box_count:, initial_filled_counts:)
@@ -56,7 +60,7 @@ module Ruboty
           # when 16 # 16x16 is too slow
           #   [*70..90] # is it proper?
           else
-            raise "not supported N: #{n}"
+            raise UserVisibleError, "not supported N: #{n}"
           end
 
         {
