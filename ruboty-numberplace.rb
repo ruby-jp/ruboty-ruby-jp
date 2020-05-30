@@ -20,32 +20,33 @@ module Ruboty
       INITIAL_FILLED_COUNTS = [*20..30]
 
       def gen(n:, root_n:, box_count:, initial_filled_counts:)
-        boxes = box_count.times.map{nil}
+        loop do
+          boxes = box_count.times.map{nil}
 
-        initial_filled_counts.sample.times do
-          pos = rand(box_count)
-          redo if boxes[pos]
+          initial_filled_counts.sample.times do
+            pos = rand(box_count)
+            redo if boxes[pos]
 
-          x = pos / n
-          y = pos % n
+            x = pos / n
+            y = pos % n
 
-          value = rand(n) + 1
+            value = rand(n) + 1
 
-          # same line
-          redo if boxes[pos - y, n].any?{|v| v == value}
-          # same column
-          redo if y.step(by: n, to: box_count).any?{|i| boxes[i] == value}
-          # same block
-          block_topleft = (x / root_n * root_n * n) + (y / root_n * root_n)
-          redo if root_n.times.any? {|i| boxes[block_topleft + n * i, root_n].any?{|v| v == value} }
+            # same line
+            redo if boxes[pos - y, n].any?{|v| v == value}
+            # same column
+            redo if y.step(by: n, to: box_count).any?{|i| boxes[i] == value}
+            # same block
+            block_topleft = (x / root_n * root_n * n) + (y / root_n * root_n)
+            redo if root_n.times.any? {|i| boxes[block_topleft + n * i, root_n].any?{|v| v == value} }
 
-          boxes[pos] = value
+            boxes[pos] = value
+          end
+
+          board = Namero::Board.load_from_array(boxes, n)
+          Namero::Solver.new(board, extensions: [Namero::SolverExtensions::CandidateExistsOnlyOnePlace]).solve
+          return boxes if board.complete?
         end
-
-        board = Namero::Board.load_from_array(boxes, n)
-        Namero::Solver.new(board, extensions: [Namero::SolverExtensions::CandidateExistsOnlyOnePlace]).solve
-        return boxes if board.complete?
-        gen(n: n, root_n: root_n, box_count: box_count, initial_filled_counts: initial_filled_counts)
       end
 
       def parameters(n)
