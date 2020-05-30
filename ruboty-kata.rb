@@ -3,7 +3,7 @@ require 'pathname'
 
 module Ruboty
   module Handlers
-    class In < Base
+    class Kata < Base
 
       on(
          /kata\s+(?<klass>\S+)(?<kind>[#.])(?<method>\S+)/,
@@ -13,7 +13,7 @@ module Ruboty
 
       def kata(message)
         m = message.match_data
-        
+
         kind = m[:kind] == '#' ? '--instance' : '--singleton'
         stdout, _status = Open3.capture2e('rbs', *requires, 'method', kind, m[:klass], m[:method])
         message.reply <<~MARKDOWN
