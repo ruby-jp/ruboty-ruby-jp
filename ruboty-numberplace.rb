@@ -11,13 +11,10 @@ module Ruboty
 
       def numberplace(message)
         n = message.match_data[:n]&.to_i || 9
-        message.reply format gen(**parameters(n))
+        params = parameters(n)
+        resp = format gen(**params), **params
+        message.reply(resp)
       end
-
-      N = 3
-      N2 = N*N
-      BOX_COUNT = N2*N2
-      INITIAL_FILLED_COUNTS = [*20..30]
 
       def gen(n:, root_n:, box_count:, initial_filled_counts:)
         loop do
@@ -70,17 +67,17 @@ module Ruboty
         }
       end
 
-      def format(boxes)
+      def format(boxes, n:, root_n:, **)
         res = ''
-        boxes.each_slice(N2).with_index do |line, idx|
-          line.each_slice(N) do |group|
+        boxes.each_slice(n).with_index do |line, idx|
+          line.each_slice(root_n) do |group|
             group.each do |box|
               res << to_emoji(box)
             end
             res << ' '
           end
           res << "\n"
-          res << "\n" if idx % N == N - 1
+          res << "\n" if idx % root_n == root_n - 1
         end
         res
       end
