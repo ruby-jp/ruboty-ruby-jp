@@ -121,6 +121,10 @@ module Ruboty
           res << "\n"
           res << "\n" if idx % root_n == root_n - 1
         end
+
+        uri = 'https://puzzle.pocke.me/#/number_place_from_param?' +
+          URI.encode_www_form(board: JSON.generate(boxes.each_slice(n).to_a))
+        res << uri
         res
       end
 
