@@ -16,8 +16,10 @@ module Ruboty
       def numberplace(message)
         n = message.match_data[:n]&.to_i || 9
         params = parameters(n)
-        resp = format gen(**params), **params
+        boxes = gen(**params)
+        resp = format boxes, **params
         message.reply(resp)
+        message.reply(to_uri(boxes, **params))
       rescue UserVisibleError => ex
         message.reply ex.message
       end
@@ -122,13 +124,15 @@ module Ruboty
           res << "\n" if idx % root_n == root_n - 1
         end
 
-        uri = 'https://puzzle.pocke.me/#/number_place_from_param?' +
-          URI.encode_www_form(board: JSON.generate(boxes.each_slice(n).to_a))
-        res << uri
         res
       end
 
-      def to_emoji(n)
+      private def to_uri(boxes, n:, **)
+        'https://puzzle.pocke.me/#/number_place_from_param?' +
+          URI.encode_www_form(board: JSON.generate(boxes.each_slice(n).to_a))
+      end
+
+      private def to_emoji(n)
         {
           1 => ':one:',
           2 => ':two:',
