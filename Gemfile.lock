@@ -38,7 +38,7 @@ GEM
       domain_name (~> 0.5)
     http-form_data (2.1.1)
     http_parser.rb (0.6.0)
-    i18n (1.8.9)
+    i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     mem (0.1.5)
     memoizable (0.4.2)
@@ -84,7 +84,7 @@ GEM
       ruboty
     ruboty-rurema (0.2.0)
       ruboty
-    ruboty-slack_rtm (3.2.2)
+    ruboty-slack_rtm (3.2.3)
       faraday (~> 0.11)
       ruboty (>= 1.1.4)
       slack-api (~> 1.6)
