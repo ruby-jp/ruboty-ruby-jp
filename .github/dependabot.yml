@@ -1,0 +1,22 @@
+version: 2
+updates:
+- package-ecosystem: bundler
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "20:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: parser
+    versions:
+    - 3.0.1.0
+  - dependency-name: rbs
+    versions:
+    - 1.0.5
+    - 1.0.6
+    - 1.1.1
+  - dependency-name: activesupport
+    versions:
+    - 6.1.2
+    - 6.1.2.1
+    - 6.1.3
