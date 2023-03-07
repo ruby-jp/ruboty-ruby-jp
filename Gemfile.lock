@@ -12,7 +12,7 @@ GEM
     buftok (0.2.0)
     chrono (0.4.0)
       activesupport
-    concurrent-ruby (1.2.0)
+    concurrent-ruby (1.2.2)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.8.1)
@@ -21,7 +21,7 @@ GEM
     eventmachine (1.2.7)
     faker (2.10.1)
       i18n (>= 1.6, < 2)
-    faraday (0.17.5)
+    faraday (0.17.6)
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.10.1)
       faraday (>= 0.7.4, < 1.0)
@@ -48,9 +48,9 @@ GEM
     mem (0.1.5)
     memoizable (0.4.2)
       thread_safe (~> 0.3, >= 0.3.1)
-    minitest (5.17.0)
+    minitest (5.18.0)
     multi_json (1.15.0)
-    multipart-post (2.2.3)
+    multipart-post (2.3.0)
     namero (1.0.0)
     naught (1.1.0)
     parser (3.2.1.0)
@@ -89,7 +89,7 @@ GEM
       ruboty
     ruboty-rurema (0.2.0)
       ruboty
-    ruboty-slack_rtm (3.2.4)
+    ruboty-slack_rtm (3.2.5)
       faraday (~> 0.11)
       ruboty (>= 1.1.4)
       slack-api (~> 1.6)
@@ -103,7 +103,7 @@ GEM
       faraday_middleware (~> 0.10.0)
       faye-websocket (~> 0.10.6)
       multi_json (~> 1.0, >= 1.0.3)
-    slop (4.9.2)
+    slop (4.10.1)
     thread_safe (0.3.6)
     twitter (7.0.0)
       addressable (~> 2.3)
@@ -116,13 +116,13 @@ GEM
       multipart-post (~> 2.0)
       naught (~> 1.0)
       simple_oauth (~> 0.3.0)
-    tzinfo (2.0.5)
+    tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.7)
     websocket (1.2.9)
-    websocket-client-simple (0.5.1)
+    websocket-client-simple (0.6.0)
       event_emitter
       websocket
     websocket-driver (0.7.5)
