@@ -28,6 +28,6 @@ module RobotSayHelp
   end
 end
 
-Ruboty::Robot.prepend RobotSayHelp
+# Ruboty::Robot.prepend RobotSayHelp
 
 Ruboty::CommandBuilder.new(ARGV).build.call
