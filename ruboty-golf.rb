@@ -71,7 +71,7 @@ module Ruboty
 
       private def channel_info(id)
         # Do not use slack RTM adapter's channel_info method to avoid cache
-        client.channels_info(channel: id)['channel']
+        client.conversations_info(channel: id)['channel']
       end
 
       private def client
