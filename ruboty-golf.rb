@@ -33,7 +33,15 @@ module Ruboty
                     else
                       format problems
                     end
-        new_topic = new_topic[0, 250] # 250文字を越えると {"ok"=>false, "error"=>"too_long"}
+
+        # When topic is longer than 250 characters, returns {"ok"=>false, "error"=>"too_long"}.
+        if new_topic.size > 250 - 3
+          while new_topic.size > 250 - 3
+            new_topic = new_topic.lines[0..-2].join
+          end
+          new_topic << "..."
+        end
+
         channel_id = resolve_channel_id(channel)
         current_topic = channel_info(channel_id).dig('topic', 'value')
         if current_topic != new_topic
