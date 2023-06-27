@@ -38,8 +38,6 @@ module Ruboty
         if current_topic != new_topic
           client.channels_setTopic(channel: channel_id, topic: new_topic)
         end
-      rescue => ex
-        message.reply "Error: #{ex.inspect}"
       end
 
       private def active_problems
