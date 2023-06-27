@@ -34,9 +34,6 @@ module Ruboty
                       format problems
                     end
         channel_id = resolve_channel_id(channel)
-        unless channel_id
-          raise "channel=#{channel.inspect} not found: channel_info_caches=#{adapter.instance_variable_get(:@channel_info_caches).inspect}"
-        end
         current_topic = channel_info(channel_id).dig('topic', 'value')
         if current_topic != new_topic
           client.channels_setTopic(channel: channel_id, topic: new_topic)
