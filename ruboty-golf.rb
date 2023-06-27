@@ -36,7 +36,7 @@ module Ruboty
         channel_id = resolve_channel_id(channel)
         current_topic = channel_info(channel_id).dig('topic', 'value')
         if current_topic != new_topic
-          client.channels_setTopic(channel: channel_id, topic: new_topic)
+          client.conversations_setTopic(channel: channel_id, topic: new_topic)
         end
       end
 
