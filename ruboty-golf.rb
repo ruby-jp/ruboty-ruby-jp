@@ -37,7 +37,9 @@ module Ruboty
         current_topic = channel_info(channel_id).dig('topic', 'value')
         if current_topic != new_topic
           resp = client.conversations_setTopic(channel: channel_id, topic: new_topic)
-          raise resp.inspect
+          unless resp['ok']
+            raise "failed to setTopic: channel=#{channel_id} topic=#{new_topic} resp=#{resp.inspect}"
+          end
         end
       end
 
