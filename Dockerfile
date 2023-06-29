@@ -1,8 +1,8 @@
-FROM rubylang/ruby:2.7.1-bionic
+FROM rubylang/ruby:2.7.8-bionic
 WORKDIR /ruboty-ruby-jp
 
 RUN apt update \
-    && apt install -y g++ \
+    && apt install -y g++ make \
     && rm -rf /var/lib/apt/lists/*
 
 COPY Gemfile Gemfile.lock /ruboty-ruby-jp/
