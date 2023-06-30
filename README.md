@@ -30,7 +30,7 @@ Contributing
 ---
 
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/pocke/ruboty-ruby-jp.
+Bug reports and pull requests are welcome on GitHub at https://github.com/ruby-jp/ruboty-ruby-jp.
 日本語でもokです
 
 
