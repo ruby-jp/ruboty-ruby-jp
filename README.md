@@ -18,8 +18,8 @@ pong
 If you have docker environment, also can development by run below command
 
 ```bash
-$ docker-compose build
-$ docker-compose run --rm ruboty
+$ docker compose build
+$ docker compose run --rm ruboty
 > ruboty ping
 pong
 ```
