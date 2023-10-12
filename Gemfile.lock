@@ -1,21 +1,31 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (7.0.8)
+    activesupport (7.1.1)
+      base64
+      bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
+      connection_pool (>= 2.2.5)
+      drb
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
+      mutex_m
       tzinfo (~> 2.0)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     ast (2.4.2)
+    base64 (0.1.1)
+    bigdecimal (3.1.4)
     buftok (0.2.0)
     chrono (0.4.0)
       activesupport
     concurrent-ruby (1.2.2)
+    connection_pool (2.4.1)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.8.1)
+    drb (2.1.1)
+      ruby2_keywords
     equalizer (0.0.11)
     event_emitter (0.2.6)
     eventmachine (1.2.7)
@@ -51,6 +61,7 @@ GEM
     minitest (5.20.0)
     multi_json (1.15.0)
     multipart-post (2.3.0)
+    mutex_m (0.1.2)
     namero (1.0.0)
     naught (1.1.0)
     parser (3.2.2.4)
@@ -99,6 +110,7 @@ GEM
     ruboty-slack_rtm-emoji_changed (0.1.0)
     ruboty-zoi (1.1.0)
       ruboty
+    ruby2_keywords (0.0.5)
     simple_oauth (0.3.1)
     slack-api (1.6.1)
       faraday (~> 0.11)
