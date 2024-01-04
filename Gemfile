@@ -7,6 +7,7 @@ gem 'parser'
 gem 'ruboty-replace'
 gem "ruboty-slack_rtm", require: false
 gem 'ruboty-slack_rtm-emoji_changed'
+gem 'ruboty-slack_rtm-channel_created'
 gem 'ruboty-redis'
 gem 'ruboty-cron'
 gem 'ruboty-rurema'
