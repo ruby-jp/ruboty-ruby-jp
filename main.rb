@@ -1,4 +1,5 @@
 require "ruboty"
+require_relative './ruboty-redis-patch'
 require_relative './ruboty-slack_rtm-patch' unless ENV['RUBOTY_CLI']
 
 require_relative './ruboty-parse_ruby'
