@@ -21,4 +21,5 @@ gem 'rbs'
 group :development do
   gem 'rspec'
   gem 'simplecov'
+  gem 'webmock'
 end

@@ -14,6 +14,8 @@ GEM
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
+    addressable (2.9.0)
+      public_suffix (>= 2.0.2, < 8.0)
     ast (2.4.3)
     async (2.44.1)
       console (~> 1.29)
@@ -45,6 +47,9 @@ GEM
       fiber-annotation
       fiber-local (~> 1.1)
       json
+    crack (1.0.1)
+      bigdecimal
+      rexml
     diff-lcs (1.6.2)
     dotenv (3.2.0)
     drb (2.2.3)
@@ -67,6 +72,7 @@ GEM
     fiber-storage (1.0.1)
     gli (2.22.2)
       ostruct
+    hashdiff (1.2.1)
     hashie (5.1.0)
       logger
     i18n (1.15.2)
@@ -106,6 +112,7 @@ GEM
     protocol-url (0.10.0)
     protocol-websocket (0.21.1)
       protocol-http (~> 0.2)
+    public_suffix (7.0.5)
     racc (1.8.1)
     rack (3.2.6)
     rake (13.4.2)
@@ -121,6 +128,7 @@ GEM
       redis (>= 4)
     reline (0.7.0)
       io-console (~> 0.5)
+    rexml (3.4.4)
     rspec (3.13.2)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)
@@ -179,6 +187,10 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     uri (1.1.1)
+    webmock (3.26.2)
+      addressable (>= 2.8.0)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
 
 PLATFORMS
   aarch64-linux
@@ -203,6 +215,7 @@ DEPENDENCIES
   ruboty-slack_events
   ruboty-zoi
   simplecov
+  webmock
 
 RUBY VERSION
   ruby 4.0.6

@@ -1,4 +1,4 @@
-require 'slack'
+require 'slack-ruby-client'
 require 'active_support'
 require 'active_support/core_ext'
 
@@ -129,7 +129,7 @@ module SlackApi
     private
 
     def client
-      Slack::Client.new(token: ENV.fetch('SLACK_TOKEN'))
+      Slack::Web::Client.new(token: ENV.fetch('SLACK_TOKEN'))
     end
 
     def request_params(next_cursor)
