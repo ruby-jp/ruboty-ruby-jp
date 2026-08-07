@@ -14,7 +14,7 @@ module Ruboty
       on(
         /golf set-topic\s+(?<channel>\S+)/i,
         name: 'topic',
-        description: 'Update channel topic with active problems. It requires ruboty-slack_rtm',
+        description: 'Update channel topic with active problems. It requires ruboty-slack_events',
       )
 
       def list(message)
@@ -23,8 +23,6 @@ module Ruboty
       end
 
       def topic(message)
-        require 'slack'
-
         channel = message.match_data['channel']
 
         problems = active_problems
@@ -73,12 +71,24 @@ module Ruboty
 
       private def adapter
         robot.__send__(:adapter).tap do |adapter|
-          raise "Adapter must be a Ruboty::Adapters::SlackRTM" unless adapter.is_a?(Ruboty::Adapters::SlackRTM)
+          raise "Adapter must be a Ruboty::Adapters::SlackEvents" unless adapter.is_a?(Ruboty::Adapters::SlackEvents)
         end
       end
 
       private def resolve_channel_id(name)
-        adapter.__send__(:resolve_channel_id, name)
+        name = name.delete_prefix('#')
+        cursor = nil
+
+        loop do
+          resp = client.conversations_list(exclude_archived: true, cursor: cursor, limit: 200)
+          channel = resp['channels'].find { |c| c['name'] == name }
+          return channel['id'] if channel
+
+          cursor = resp.dig('response_metadata', 'next_cursor')
+          break if cursor.nil? || cursor.empty?
+        end
+
+        raise "channel not found: ##{name}"
       end
 
       private def channel_info(id)
@@ -87,7 +97,7 @@ module Ruboty
       end
 
       private def client
-        Slack::Client.new(token: ENV.fetch('SLACK_TOKEN'))
+        adapter.slack_client
       end
     end
   end
