@@ -1,4 +1,4 @@
-FROM rubylang/ruby:2.7.8-bionic
+FROM rubylang/ruby:3.2.8-noble
 WORKDIR /ruboty-ruby-jp
 
 RUN apt update \

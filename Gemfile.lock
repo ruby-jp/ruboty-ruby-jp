@@ -1,80 +1,158 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (7.1.3.2)
+    activesupport (8.0.2)
       base64
+      benchmark (>= 0.3)
       bigdecimal
-      concurrent-ruby (~> 1.0, >= 1.0.2)
+      concurrent-ruby (~> 1.0, >= 1.3.1)
       connection_pool (>= 2.2.5)
       drb
       i18n (>= 1.6, < 2)
+      logger (>= 1.4.2)
       minitest (>= 5.1)
-      mutex_m
-      tzinfo (~> 2.0)
-    addressable (2.8.6)
-      public_suffix (>= 2.0.2, < 6.0)
-    ast (2.4.2)
+      securerandom (>= 0.3)
+      tzinfo (~> 2.0, >= 2.0.5)
+      uri (>= 0.13.1)
+    addressable (2.8.7)
+      public_suffix (>= 2.0.2, < 7.0)
+    ast (2.4.3)
+    async (2.24.0)
+      console (~> 1.29)
+      fiber-annotation
+      io-event (~> 1.9)
+      metrics (~> 0.12)
+      traces (~> 0.15)
+    async-http (0.89.0)
+      async (>= 2.10.2)
+      async-pool (~> 0.9)
+      io-endpoint (~> 0.14)
+      io-stream (~> 0.6)
+      metrics (~> 0.12)
+      protocol-http (~> 0.49)
+      protocol-http1 (~> 0.30)
+      protocol-http2 (~> 0.22)
+      traces (~> 0.10)
+    async-pool (0.10.3)
+      async (>= 1.25)
+    async-websocket (0.30.0)
+      async-http (~> 0.76)
+      protocol-http (~> 0.34)
+      protocol-rack (~> 0.7)
+      protocol-websocket (~> 0.17)
     base64 (0.2.0)
-    bigdecimal (3.1.7)
-    buftok (0.2.0)
+    benchmark (0.4.0)
+    bigdecimal (3.1.9)
+    buftok (0.3.0)
     chrono (0.6.0)
       activesupport (>= 5.2)
-    concurrent-ruby (1.2.3)
-    connection_pool (2.4.1)
+    concurrent-ruby (1.3.5)
+    connection_pool (2.5.3)
+    console (1.30.2)
+      fiber-annotation
+      fiber-local (~> 1.1)
+      json
+    diff-lcs (1.6.2)
+    docile (1.4.1)
     domain_name (0.6.20240107)
-    dotenv (2.8.1)
-    drb (2.2.1)
+    dotenv (3.1.8)
+    drb (2.2.3)
     equalizer (0.0.11)
-    event_emitter (0.2.6)
-    eventmachine (1.2.7)
     faker (2.23.0)
       i18n (>= 1.8.11, < 2)
-    faraday (0.17.6)
-      multipart-post (>= 1.2, < 3)
-    faraday_middleware (0.10.1)
-      faraday (>= 0.7.4, < 1.0)
-    faye-websocket (0.10.9)
-      eventmachine (>= 0.12.0)
-      websocket-driver (>= 0.5.1)
-    ffi (1.16.3)
+    faraday (2.13.1)
+      faraday-net_http (>= 2.0, < 3.5)
+      json
+      logger
+    faraday-mashify (1.0.0)
+      faraday (~> 2.0)
+      hashie
+    faraday-multipart (1.1.0)
+      multipart-post (~> 2.0)
+    faraday-net_http (3.4.0)
+      net-http (>= 0.5.0)
+    ffi (1.17.2-aarch64-linux-gnu)
+    ffi (1.17.2-arm64-darwin)
     ffi-compiler (1.3.2)
       ffi (>= 1.15.5)
       rake
-    http (4.4.1)
-      addressable (~> 2.3)
+    fiber-annotation (0.2.0)
+    fiber-local (1.1.0)
+      fiber-storage
+    fiber-storage (1.0.1)
+    gli (2.22.2)
+      ostruct
+    hashie (5.0.0)
+    http (5.2.0)
+      addressable (~> 2.8)
+      base64 (~> 0.1)
       http-cookie (~> 1.0)
       http-form_data (~> 2.2)
-      http-parser (~> 1.2.0)
-    http-cookie (1.0.5)
+      llhttp-ffi (~> 0.5.0)
+    http-cookie (1.0.8)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
-    http-parser (1.2.3)
-      ffi-compiler (>= 1.0, < 2.0)
-    http_parser.rb (0.6.0)
-    i18n (1.14.4)
+    i18n (1.14.7)
       concurrent-ruby (~> 1.0)
-    mem (0.1.5)
+    io-endpoint (0.15.2)
+    io-event (1.10.1)
+    io-stream (0.6.1)
+    json (2.12.2)
+    llhttp-ffi (0.5.1)
+      ffi-compiler (~> 1.0)
+      rake (~> 13.0)
+    logger (1.7.0)
+    mem (0.2.0)
     memoizable (0.4.2)
       thread_safe (~> 0.3, >= 0.3.1)
-    minitest (5.22.3)
-    multi_json (1.15.0)
-    multipart-post (2.4.0)
-    mutex_m (0.2.0)
+    metrics (0.12.2)
+    minitest (5.25.5)
+    multipart-post (2.4.1)
     namero (1.0.0)
     naught (1.1.0)
-    parser (3.3.0.5)
+    net-http (0.6.0)
+      uri
+    ostruct (0.6.1)
+    parser (3.3.8.0)
       ast (~> 2.4.1)
       racc
-    public_suffix (5.0.5)
-    racc (1.7.3)
-    rake (13.2.0)
-    rbs (3.1.3)
-    redis (5.1.0)
-      redis-client (>= 0.17.0)
-    redis-client (0.21.1)
+    protocol-hpack (1.5.1)
+    protocol-http (0.50.1)
+    protocol-http1 (0.34.0)
+      protocol-http (~> 0.22)
+    protocol-http2 (0.22.1)
+      protocol-hpack (~> 1.4)
+      protocol-http (~> 0.47)
+    protocol-rack (0.13.0)
+      protocol-http (~> 0.43)
+      rack (>= 1.0)
+    protocol-websocket (0.20.2)
+      protocol-http (~> 0.2)
+    public_suffix (6.0.2)
+    racc (1.8.1)
+    rack (3.1.15)
+    rake (13.2.1)
+    rbs (3.9.4)
+      logger
+    redis (5.4.0)
+      redis-client (>= 0.22.0)
+    redis-client (0.24.0)
       connection_pool
     redis-namespace (1.11.0)
       redis (>= 4)
+    rspec (3.13.1)
+      rspec-core (~> 3.13.0)
+      rspec-expectations (~> 3.13.0)
+      rspec-mocks (~> 3.13.0)
+    rspec-core (3.13.4)
+      rspec-support (~> 3.13.0)
+    rspec-expectations (3.13.5)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-mocks (3.13.5)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-support (3.13.4)
     ruboty (1.3.1)
       activesupport
       bundler
@@ -89,10 +167,6 @@ GEM
       ruboty
     ruboty-faker (0.1.1)
       faker (< 3)
-    ruboty-google_image (0.1.1)
-      faraday
-      faraday_middleware
-      ruboty
     ruboty-rainfall_jp (1.4.0)
       ruboty
     ruboty-redis (0.0.6)
@@ -103,47 +177,48 @@ GEM
       ruboty
     ruboty-rurema (0.2.0)
       ruboty
-    ruboty-slack_rtm (3.2.5)
-      faraday (~> 0.11)
+    ruboty-slack_events (0.3.1)
+      async-websocket (~> 0.25)
       ruboty (>= 1.1.4)
-      slack-api (~> 1.6)
-      websocket-client-simple (>= 0.5.0)
-    ruboty-slack_rtm-channel_created (0.1.1)
-      ruboty-slack_rtm
-    ruboty-slack_rtm-emoji_changed (0.1.0)
+      slack-ruby-client (~> 2.5)
     ruboty-zoi (1.1.0)
       ruboty
+    securerandom (0.4.1)
     simple_oauth (0.3.1)
-    slack-api (1.6.1)
-      faraday (~> 0.11)
-      faraday_middleware (~> 0.10.0)
-      faye-websocket (~> 0.10.6)
-      multi_json (~> 1.0, >= 1.0.3)
+    simplecov (0.22.0)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.13.1)
+    simplecov_json_formatter (0.1.4)
+    slack-ruby-client (2.6.0)
+      faraday (>= 2.0)
+      faraday-mashify
+      faraday-multipart
+      gli
+      hashie
+      logger
     slop (4.10.1)
     thread_safe (0.3.6)
-    twitter (7.0.0)
-      addressable (~> 2.3)
-      buftok (~> 0.2.0)
+    traces (0.15.2)
+    twitter (8.2.0)
+      addressable (~> 2.8)
+      buftok (~> 0.3.0)
       equalizer (~> 0.0.11)
-      http (~> 4.0)
-      http-form_data (~> 2.0)
-      http_parser.rb (~> 0.6.0)
+      http (~> 5.2)
+      http-form_data (~> 2.3)
+      llhttp-ffi (~> 0.5.0)
       memoizable (~> 0.4.0)
-      multipart-post (~> 2.0)
-      naught (~> 1.0)
+      multipart-post (~> 2.4)
+      naught (~> 1.1)
       simple_oauth (~> 0.3.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    websocket (1.2.10)
-    websocket-client-simple (0.8.0)
-      event_emitter
-      websocket
-    websocket-driver (0.7.6)
-      websocket-extensions (>= 0.1.0)
-    websocket-extensions (0.1.5)
+    uri (1.0.3)
 
 PLATFORMS
-  ruby
+  aarch64-linux
+  arm64-darwin-24
 
 DEPENDENCIES
   activesupport
@@ -151,23 +226,21 @@ DEPENDENCIES
   parser
   rake
   rbs
+  rspec
   ruboty-cron
   ruboty-echo
   ruboty-faker
-  ruboty-google_image
   ruboty-rainfall_jp
   ruboty-redis
   ruboty-replace
   ruboty-rurema
-  ruboty-slack_rtm
-  ruboty-slack_rtm-channel_created
-  ruboty-slack_rtm-emoji_changed
+  ruboty-slack_events
   ruboty-zoi
-  slack-api
+  simplecov
   twitter
 
 RUBY VERSION
-   ruby 2.7.8p225
+   ruby 3.2.8p263
 
 BUNDLED WITH
-   2.4.10
+   2.4.19
