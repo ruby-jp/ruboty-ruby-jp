@@ -3,7 +3,7 @@ WORKDIR /ruboty-ruby-jp
 
 RUN apt update \
     && apt upgrade -y \
-    && apt install -y g++ make \
+    && apt install -y g++ make libssl-dev pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
 COPY Gemfile Gemfile.lock .ruby-version /ruboty-ruby-jp/
