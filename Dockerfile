@@ -1,4 +1,4 @@
-FROM rubylang/ruby:3.2.8-noble
+FROM rubylang/ruby:4.0.6-noble
 WORKDIR /ruboty-ruby-jp
 
 RUN apt update \

@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby '3.2.8'
+ruby file: ".ruby-version"
 
 gem "rake"
 gem 'parser'
