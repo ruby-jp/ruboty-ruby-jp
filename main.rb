@@ -1,6 +1,6 @@
 require "ruboty"
 require_relative './ruboty-redis-patch'
-require 'ruboty-slack_events' unless ENV['RUBOTY_CLI']
+require 'ruboty/slack_events' unless ENV['RUBOTY_CLI']
 
 require_relative './ruboty-parse_ruby'
 require_relative './ruboty-golf'
