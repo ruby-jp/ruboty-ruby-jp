@@ -73,3 +73,8 @@ end
 
 Ruboty::Adapters::SlackEvents::SlackEventsHandler.prepend(Ruboty::SlackEventsPatch::NotifyEvents)
 Ruboty::Adapters::SlackEvents.prepend(Ruboty::SlackEventsPatch::SaySafely)
+
+# The gem passes its log level to Logger.new's second argument, which is
+# shift_age, not level, so the logger always runs at DEBUG. Apply the level
+# the DEBUG environment variable actually asks for.
+Ruboty::SlackEvents::Logger.instance.level = Ruboty::SlackEvents::Logger.log_level
