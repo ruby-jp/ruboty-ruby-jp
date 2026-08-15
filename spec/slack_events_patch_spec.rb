@@ -154,6 +154,12 @@ describe Ruboty::Adapters::SlackEvents::SlackEventsHandler do
   end
 end
 
+describe Ruboty::SlackEvents::Logger do
+  it 'applies the log level intended by the DEBUG environment variable' do
+    expect(described_class.instance.level).to eq(described_class.log_level)
+  end
+end
+
 describe Ruboty::Adapters::SlackEvents, '#say' do
   around do |example|
     ENV['SLACK_TOKEN'] = 'xoxb-test'
