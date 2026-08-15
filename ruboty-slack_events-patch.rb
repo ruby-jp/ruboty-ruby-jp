@@ -55,7 +55,21 @@ module Ruboty
         )
       end
     end
+
+    # The adapter logs the whole message with to_json when DEBUG logging is
+    # enabled, but original[:robot] makes the hash cyclic (robot -> adapter
+    # -> robot), so ActiveSupport's as_json recurses until SystemStackError
+    # kills the process. The adapter only reads original[:thread_ts], so
+    # hand over just that.
+    module SaySafely
+      def say(message)
+        original = message[:original]
+        message = message.merge(original: { thread_ts: original[:thread_ts] }) if original
+        super
+      end
+    end
   end
 end
 
 Ruboty::Adapters::SlackEvents::SlackEventsHandler.prepend(Ruboty::SlackEventsPatch::NotifyEvents)
+Ruboty::Adapters::SlackEvents.prepend(Ruboty::SlackEventsPatch::SaySafely)

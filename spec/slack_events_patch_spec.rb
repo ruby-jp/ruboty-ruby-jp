@@ -153,3 +153,49 @@ describe Ruboty::Adapters::SlackEvents::SlackEventsHandler do
     end
   end
 end
+
+describe Ruboty::Adapters::SlackEvents, '#say' do
+  around do |example|
+    ENV['SLACK_TOKEN'] = 'xoxb-test'
+    ENV['SLACK_APP_TOKEN'] = 'xapp-test'
+    example.run
+  ensure
+    ENV.delete('SLACK_TOKEN')
+    ENV.delete('SLACK_APP_TOKEN')
+  end
+
+  let(:robot) { Ruboty::Robot.new }
+  let(:adapter) { described_class.new(robot) }
+  let(:slack_client) { double('slack_client') }
+
+  before do
+    allow(adapter).to receive(:slack_client).and_return(slack_client)
+    # Evaluate debug log blocks unconditionally, as with DEBUG=1
+    allow(Ruboty::SlackEvents::Logger).to receive(:debug) { |*, &block| block&.call }
+  end
+
+  it 'posts the message even when original holds a cyclic object graph' do
+    original = { body: '@ruboty ping', from: 'C1', to: 'C1', thread_ts: 'ts123' }
+    original[:robot] = original
+
+    expect(slack_client).to receive(:chat_postMessage).with(
+      channel: 'C1',
+      attachments: [],
+      markdown_text: 'pong',
+      thread_ts: 'ts123',
+    )
+
+    adapter.say(body: 'pong', from: 'C1', to: 'C1', original: original)
+  end
+
+  it 'posts the message when original is absent' do
+    expect(slack_client).to receive(:chat_postMessage).with(
+      channel: 'C1',
+      attachments: [],
+      markdown_text: 'hi',
+      thread_ts: nil,
+    )
+
+    adapter.say(body: 'hi', to: 'C1')
+  end
+end
