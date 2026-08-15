@@ -1,23 +1,25 @@
 source "https://rubygems.org"
 
-ruby '2.7.8'
+ruby file: ".ruby-version"
 
 gem "rake"
 gem 'parser'
 gem 'ruboty-replace'
-gem "ruboty-slack_rtm", require: false
-gem 'ruboty-slack_rtm-emoji_changed'
-gem 'ruboty-slack_rtm-channel_created'
+gem 'ruboty-slack_events', require: false
 gem 'ruboty-redis'
 gem 'ruboty-cron'
 gem 'ruboty-rurema'
 gem 'ruboty-echo'
 gem 'ruboty-zoi'
-gem 'twitter'
 gem 'ruboty-rainfall_jp'
-gem 'ruboty-google_image'
+#gem 'ruboty-google_image'
 gem 'namero'
 gem 'ruboty-faker'
 gem 'activesupport'
-gem 'slack-api'
 gem 'rbs'
+
+group :development do
+  gem 'rspec'
+  gem 'simplecov'
+  gem 'webmock'
+end

@@ -1,0 +1,29 @@
+_metadata:
+  major_version: 1
+display_information:
+  name: ruboty
+  description: Ruboty for ruby-jp Slack workspace
+features:
+  bot_user:
+    display_name: ruboty
+    always_online: false
+oauth_config:
+  scopes:
+    bot:
+      - channels:history
+      - channels:manage
+      - channels:read
+      - chat:write
+      - emoji:read
+      - users:read
+settings:
+  event_subscriptions:
+    bot_events:
+      - channel_created
+      - emoji_changed
+      - message.channels
+  interactivity:
+    is_enabled: true
+  org_deploy_enabled: false
+  socket_mode_enabled: true
+  token_rotation_enabled: false

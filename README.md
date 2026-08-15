@@ -34,20 +34,32 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/ruby-j
 日本語でもokです
 
 
+Slack app setup
+---
+
+1. Open https://api.slack.com/apps and create a new app with "From an app manifest" using [slack-app-manifest.yml](slack-app-manifest.yml) (or paste the manifest into an existing app's "App Manifest" page).
+2. In "Basic Information" > "App-Level Tokens", generate a token with the `connections:write` scope. This is `SLACK_APP_TOKEN` (`xapp-...`), used for Socket Mode.
+3. Install the app to the workspace and copy the "Bot User OAuth Token". This is `SLACK_TOKEN` (`xoxb-...`).
+4. Invite the bot to the channels it should watch and post to, e.g. `#emoji` and `#new_channel`.
+
+
 Deployment
 ---
 
 ruboty-ruby-jp is running on Heroku.
 It requires the following environment variables.
 
-* `GOOGLE_CSE_ID`
-* `GOOGLE_CSE_KEY`
 * `REDIS_URL`
+* `SLACK_APP_TOKEN`
 * `SLACK_AUTO_RECONNECT=1`
 * `SLACK_TOKEN`
-* `TWITTER_CONSUMER_KEY`
-* `TWITTER_CONSUMER_SECRET`
 * `YAHOO_JAPAN_APP_ID`
+
+The following are optional.
+
+* `SLACK_EMOJI_CHANGED_CHANNEL` (default: `#emoji`)
+* `SLACK_EMOJI_IGNORE_REMOVED` (set to skip removed-emoji notifications)
+* `SLACK_CHANNEL_CREATED_NOTIFY_CHANNEL` (default: `#new_channel`)
 
 License
 ---

@@ -24,18 +24,18 @@ module Ruboty
         message.reply ex.message
       end
 
-      private def gen(n:, root_n:, box_count:, initial_filled_counts:, assume_retry_count:)
+      private def gen(n:, root_n:, box_count:, initial_filled_counts:, assume_retry_count:, prng: Random.new)
         loop do
           boxes = box_count.times.map{nil}
 
-          initial_filled_counts.sample.times do
-            pos = rand(box_count)
+          initial_filled_counts.sample(random: prng).times do
+            pos = prng.rand(box_count)
             redo if boxes[pos]
 
             x = pos / n
             y = pos % n
 
-            value = rand(n) + 1
+            value = prng.rand(n) + 1
 
             # same line
             redo if boxes[pos - y, n].any?{|v| v == value}
@@ -50,21 +50,21 @@ module Ruboty
 
           board = Namero::Board.load_from_array(boxes, n)
           solver(board).solve
-          board, boxes = assume_and_solve(board: board, boxes: boxes) unless board.complete?
+          board, boxes = assume_and_solve(board: board, boxes: boxes, prng: prng) unless board.complete?
           return boxes if board.complete?
         rescue InvalidBoard, TooManyTries
           # suppress
         end
       end
 
-      private def assume_and_solve(board:, boxes:, remain_tries: 30)
+      private def assume_and_solve(board:, boxes:, remain_tries: 30, prng: Random.new)
         raise TooManyTries if remain_tries == 0
 
         new_board = board.dup
         new_boxes = boxes.dup
 
-        v = new_board.each_values.reject { |v| v.value }.shuffle.min_by { |v| v.candidates.size }
-        new_boxes[v.index] = v.value = v.candidates.sample
+        v = new_board.each_values.reject { |v| v.value }.shuffle(random: prng).min_by { |v| v.candidates.size }
+        new_boxes[v.index] = v.value = v.candidates.sample(random: prng)
         solver(new_board).solve
 
         return new_board, new_boxes if new_board.complete?
@@ -78,7 +78,7 @@ module Ruboty
           raise InvalidBoard if has_no_candidates?(new_board)
         end
 
-        assume_and_solve(board: new_board, boxes: new_boxes, remain_tries: remain_tries - 1)
+        assume_and_solve(board: new_board, boxes: new_boxes, remain_tries: remain_tries - 1, prng: prng)
       end
 
       private def solver(board)

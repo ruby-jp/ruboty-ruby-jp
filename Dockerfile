@@ -1,12 +1,12 @@
-FROM rubylang/ruby:2.7.8-bionic
+FROM rubylang/ruby:4.0.6-noble
 WORKDIR /ruboty-ruby-jp
 
 RUN apt update \
     && apt upgrade -y \
-    && apt install -y g++ make \
+    && apt install -y g++ make libssl-dev pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
-COPY Gemfile Gemfile.lock /ruboty-ruby-jp/
+COPY Gemfile Gemfile.lock .ruby-version /ruboty-ruby-jp/
 RUN bundle install
 
 COPY . .

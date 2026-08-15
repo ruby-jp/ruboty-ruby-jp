@@ -1,13 +1,13 @@
 require "ruboty"
 require_relative './ruboty-redis-patch'
-require_relative './ruboty-slack_rtm-patch' unless ENV['RUBOTY_CLI']
+require 'ruboty/slack_events' unless ENV['RUBOTY_CLI']
+require_relative './ruboty-slack_events-patch' unless ENV['RUBOTY_CLI']
 
 require_relative './ruboty-parse_ruby'
 require_relative './ruboty-golf'
 require_relative './ruboty-kawa'
 require_relative './ruboty-matz'
 require_relative './ruboty-tshirt'
-require_relative './ruboty-twitter-handler'
 require_relative './ruboty-tenki'
 require_relative './ruboty-gsub'
 require_relative './ruboty-in'
