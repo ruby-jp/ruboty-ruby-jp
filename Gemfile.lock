@@ -174,7 +174,7 @@ GEM
     ruboty-zoi (1.1.0)
       ruboty
     securerandom (0.4.1)
-    simplecov (1.1.1)
+    simplecov (1.2.0)
     slack-ruby-client (2.7.0)
       faraday (>= 2.0.1)
       faraday-mashify
