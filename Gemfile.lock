@@ -123,9 +123,9 @@ GEM
       logger
       prism (>= 1.6.0)
       tsort
-    redis (6.0.0)
-      redis-client (= 0.30.1)
-    redis-client (0.30.1)
+    redis (6.1.1)
+      redis-client (= 0.31.0)
+    redis-client (0.31.0)
       connection_pool
     redis-namespace (1.11.0)
       redis (>= 4)
@@ -162,7 +162,7 @@ GEM
       faker (< 3)
     ruboty-rainfall_jp (1.4.0)
       ruboty
-    ruboty-redis (0.0.6)
+    ruboty-redis (0.1.0)
       redis
       redis-namespace
       ruboty
